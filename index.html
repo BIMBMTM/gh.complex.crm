@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GH.Complex • CRM & Ads Intelligence Dashboard</title>
+<title>GH.Complex • CRM & Ads Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,21 +12,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root{
-  --bg:#e8ecf3; --bg2:#eef0f5;
-  --card:#f3f5fb; --card2:#eef1f8;
-  --accent:#2f6bff; --accent2:#3b82f6; --accent-soft:#e3edff;
-  --ink:#1e293b; --ink2:#334155; --muted:#64748b; --line:#dde3ee;
-  --good:#22c55e; --warn:#f59e0b; --bad:#ef4444; --info:#0ea5e9;
-  --pink:#ec4899; --purple:#a855f7; --teal:#14b8a6; --orange:#f97316;
-  --sh-dark:rgba(163,177,198,.55); --sh-light:rgba(255,255,255,.95);
+  --bg:#e9eaf2; --bg2:#eeeef6;
+  --card:#f4f4fa; --card2:#eeeef6;
+  --brand:#2c2a6b;
+  --accent:#3f3d99; --accent2:#5b57c9; --accent-soft:#e7e6f6;
+  --ink:#1d1b3a; --ink2:#36345e; --muted:#6a6a86; --line:#e0e0ee;
+  --good:#16a34a; --warn:#d97706; --bad:#e11d48; --info:#0891b2;
+  --pink:#d6336c; --purple:#7c3aed; --teal:#0d9488; --orange:#ea580c;
+  --sh-dark:rgba(160,162,196,.55); --sh-light:rgba(255,255,255,.95);
   --radius:20px;
   --font:'Be Vietnam Pro',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:var(--font);background:linear-gradient(135deg,#eef0f5 0%,#e8ecf3 100%);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.45}
+body{font-family:var(--font);background:linear-gradient(135deg,#eeeef6 0%,#e9eaf2 100%);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.45}
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-thumb{background:#c5cdde;border-radius:10px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb{background:#c7c7dd;border-radius:10px;border:2px solid var(--bg)}
 ::-webkit-scrollbar-track{background:transparent}
 
 /* ---------- Neumorphic helpers ---------- */
@@ -39,7 +40,7 @@ body{font-family:var(--font);background:linear-gradient(135deg,#eef0f5 0%,#e8ecf
 
 /* ---------- LOGIN ---------- */
 #login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;
-  background:radial-gradient(1200px 600px at 30% 20%,#f2f5fb 0%,#e6eaf2 55%,#dfe4ee 100%);}
+  background:radial-gradient(1200px 600px at 30% 20%,#f1f1f9 0%,#e7e7f1 55%,#e0e0ec 100%);}
 .login-card{width:min(410px,92vw);padding:38px 34px;border-radius:28px;text-align:center;
   background:var(--card);box-shadow:-9px -9px 22px var(--sh-light), 12px 12px 30px var(--sh-dark);}
 .login-card .logo-wrap{display:flex;justify-content:center;margin-bottom:8px}
@@ -52,9 +53,9 @@ body{font-family:var(--font);background:linear-gradient(135deg,#eef0f5 0%,#e8ecf
   box-shadow:inset 4px 4px 9px var(--sh-dark), inset -4px -4px 9px var(--sh-light);}
 .fld input:focus{box-shadow:inset 4px 4px 9px var(--sh-dark), inset -4px -4px 9px var(--sh-light),0 0 0 2px var(--accent-soft)}
 .btn-login{width:100%;border:none;cursor:pointer;padding:14px;border-radius:13px;color:#fff;font-weight:700;font-size:15px;
-  font-family:var(--font);background:linear-gradient(135deg,var(--accent) 0%,#5b8bff 100%);
-  box-shadow:0 8px 18px rgba(47,107,255,.35);transition:.2s;margin-top:6px}
-.btn-login:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(47,107,255,.45)}
+  font-family:var(--font);background:linear-gradient(135deg,var(--brand) 0%,var(--accent2) 100%);
+  box-shadow:0 8px 18px rgba(44,42,107,.32);transition:.2s;margin-top:6px}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(44,42,107,.42)}
 .btn-login:active{transform:translateY(0)}
 .login-err{color:var(--bad);font-size:12.5px;font-weight:600;margin-top:14px;min-height:18px}
 .login-foot{margin-top:22px;font-size:11px;color:#94a3b8}
@@ -79,7 +80,7 @@ body{font-family:var(--font);background:linear-gradient(135deg,#eef0f5 0%,#e8ecf
 .nav-item .ic svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:2}
 .side-foot{margin-top:auto;padding-top:14px}
 .user-chip{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:13px;font-size:12px}
-.user-chip .av{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#5b8bff);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.user-chip .av{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--accent2));color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
 .user-chip .who{font-weight:700;font-size:12.5px;color:var(--ink)}
 .user-chip .who small{display:block;color:var(--muted);font-weight:500;font-size:10.5px}
 .btn-logout{margin-top:8px;width:100%;border:none;cursor:pointer;padding:9px;border-radius:11px;font-family:var(--font);
@@ -98,7 +99,7 @@ body{font-family:var(--font);background:linear-gradient(135deg,#eef0f5 0%,#e8ecf
   box-shadow:inset 3px 3px 7px var(--sh-dark), inset -3px -3px 7px var(--sh-light)}
 .pill-toggle button{border:none;cursor:pointer;padding:8px 16px;border-radius:999px;font-family:var(--font);
   font-size:12.5px;font-weight:600;color:var(--muted);background:transparent;transition:.18s}
-.pill-toggle button.active{background:var(--accent);color:#fff;box-shadow:0 4px 10px rgba(47,107,255,.35)}
+.pill-toggle button.active{background:var(--accent);color:#fff;box-shadow:0 4px 10px rgba(44,42,107,.32)}
 .sel,.ms-trigger{border:none;cursor:pointer;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--ink2);
   padding:10px 14px;border-radius:12px;background:var(--card);
   box-shadow:-2px -2px 6px var(--sh-light),3px 3px 8px var(--sh-dark);outline:none}
@@ -223,6 +224,47 @@ tbody tr:hover td{background:#eaeef6}
 .legend-row .lg-item{font-size:11.5px}
 @media(max-width:900px){.side{position:fixed;left:-260px;transition:.3s;z-index:200;box-shadow:8px 0 30px rgba(0,0,0,.15)}.side.show{left:0}.menu-btn{display:grid !important}}
 .menu-btn{display:none;width:40px;height:40px;border-radius:11px;border:none;background:var(--card);cursor:pointer;place-items:center;box-shadow:-2px -2px 6px var(--sh-light),3px 3px 8px var(--sh-dark)}
+
+/* date range + load */
+.date-inp{border:none;outline:none;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--ink2);padding:9px 11px;border-radius:11px;background:var(--card);box-shadow:inset 2px 2px 6px var(--sh-dark),inset -2px -2px 6px var(--sh-light)}
+.date-sep{font-size:12px;color:var(--muted);font-weight:600}
+.btn-load{border:none;cursor:pointer;font-family:var(--font);font-size:12.5px;font-weight:700;color:#fff;padding:10px 16px;border-radius:12px;
+  background:linear-gradient(135deg,var(--brand),var(--accent2));box-shadow:0 6px 14px rgba(44,42,107,.30);transition:.18s;display:inline-flex;align-items:center;gap:7px}
+.btn-load:hover{transform:translateY(-1px);box-shadow:0 9px 18px rgba(44,42,107,.40)}
+.btn-load:disabled{opacity:.6;cursor:default;transform:none}
+.btn-load svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.2}
+.data-stamp{font-size:11px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px}
+.dot-live{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px rgba(22,163,74,.18)}
+
+/* metric chip selector */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:4px}
+.chip{border:none;cursor:pointer;font-family:var(--font);font-size:11.5px;font-weight:600;color:var(--muted);padding:6px 12px;border-radius:999px;background:var(--card);box-shadow:-2px -2px 6px var(--sh-light),3px 3px 7px var(--sh-dark);transition:.15s}
+.chip.on{color:#fff;background:linear-gradient(135deg,var(--brand),var(--accent2));box-shadow:0 4px 9px rgba(44,42,107,.28)}
+
+/* collapsible post rows */
+.exp-row{cursor:pointer}
+.exp-row:hover{background:rgba(63,61,153,.04)}
+.exp-caret{display:inline-block;transition:.2s;color:var(--accent);font-weight:800;margin-right:4px}
+.exp-row.open .exp-caret{transform:rotate(90deg)}
+.exp-detail{display:none;background:var(--bg2)}
+.exp-detail.show{display:table-row}
+.exp-detail td{padding:0 !important}
+.exp-inner{padding:10px 14px}
+.exp-inner table{width:100%;border-collapse:collapse;font-size:11px}
+.exp-inner th,.exp-inner td{padding:5px 8px;text-align:right;border-bottom:1px solid var(--line)}
+.exp-inner th:first-child,.exp-inner td:first-child{text-align:left}
+.exp-inner th{color:var(--muted);font-weight:700;font-size:10.5px}
+
+/* best-post cards */
+.bp{display:flex;flex-direction:column;gap:9px}
+.bp .top{display:flex;align-items:center;gap:11px}
+.bp .big{font-size:19px;font-weight:800;color:var(--ink);line-height:1}
+.bp .bl{font-size:11px;color:var(--muted);font-weight:600}
+.bp .meta{display:flex;flex-wrap:wrap;gap:6px}
+.bp a{font-size:11px;color:var(--accent);font-weight:700;text-decoration:none;word-break:break-all}
+
+.cal-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.cal-wrap{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -295,7 +337,8 @@ function numC(n){n=+n||0;if(Math.abs(n)>=1e6)return (n/1e6).toFixed(2).replace(/
 function pct(n,d=1){return (isFinite(n)?(+n).toFixed(d):'0')+'%';}
 function div(a,b){return b?a/b:0;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-const PAL=['#3b82f6','#ec4899','#a855f7','#14b8a6','#f59e0b','#22c55e','#6366f1','#ef4444','#0ea5e9','#f97316','#8b5cf6','#10b981'];
+const PAL=['#3f3d99','#5b57c9','#8b87e0','#0d9488','#ea580c','#16a34a','#d6336c','#0891b2','#7c3aed','#d97706','#06b6d4','#dc2626'];
+const C={brand:'#2c2a6b',accent:'#3f3d99',accent2:'#5b57c9',accentLt:'#c6c5ec',accentLt2:'#9b98e0',good:'#16a34a',goodLt:'rgba(22,163,74,.22)',bad:'#e11d48',warn:'#d97706',pink:'#d6336c',purple:'#7c3aed',teal:'#0d9488',info:'#0891b2',ink:'#36345e',accentFill:'rgba(63,61,153,.26)',accentFill0:'rgba(63,61,153,0)'};
 const MONTHS=['Th1','Th2','Th3','Th4','Th5','Th6','Th7','Th8','Th9','Th10','Th11','Th12'];
 
 function parseDate(v){
@@ -352,8 +395,9 @@ function enterApp(){
   document.getElementById('uAv').textContent=(CURRENT.name||'U')[0];
   document.getElementById('uName').firstChild.textContent=CURRENT.name;
   document.getElementById('uRole').textContent=CURRENT.role+' • '+CURRENT.u;
-  buildNav(); loadAllData();
+  buildNav(); renderFilters(); loadAllData();
 }
+let LAST_LOAD=null;
 /* ===================== DATA LOADING ===================== */
 let ADS=[], LEADS=[], ADS_MAP={}, LEAD_MAP={}, DATA_READY=false;
 function papa(url){return new Promise((res,rej)=>{Papa.parse(url,{download:true,header:true,skipEmptyLines:'greedy',
@@ -395,7 +439,7 @@ function stageKey(s){const n=norm(s);
  if(n.includes('khachmoi')||n.includes('new')||n.includes('moi'))return 'new';
  return 'other';}
 const STAGE_LABEL={new:'Khách mới',consult:'Tư vấn dịch vụ',sitecheck:'Sitecheck',negotiate:'Thương thảo HĐ',booked:'Booked 🥂',rejected:'Rejected 💔',unqualified:'Unqualified 👎',other:'Khác',unknown:'Chưa rõ'};
-const STAGE_COLOR={new:'#0ea5e9',consult:'#6366f1',sitecheck:'#a855f7',negotiate:'#f59e0b',booked:'#22c55e',rejected:'#ef4444',unqualified:'#94a3b8',other:'#cbd5e1',unknown:'#cbd5e1'};
+const STAGE_COLOR={new:'#0ea5e9',consult:C.accent2,sitecheck:C.purple,negotiate:'#f59e0b',booked:C.good,rejected:'#ef4444',unqualified:'#94a3b8',other:'#cbd5e1',unknown:'#cbd5e1'};
 const FUNNEL_ORDER=['new','consult','sitecheck','negotiate','booked'];
 
 function typeLabel(t){const n=norm(t);if(n.includes('share'))return 'Canvas';if(n.includes('video'))return 'Video';if(n.includes('status'))return 'Post ảnh';if(n.includes('photo'))return 'Post ảnh';if(n.includes('link'))return 'Link';return t||'Khác';}
@@ -420,7 +464,7 @@ async function loadAllData(){
       source:(g('source')||'Khác').trim()||'Khác',name:(g('name')||'').trim(),
       value:num(g('value')),edate:parseDate(g('edate'))
     }:null;}).filter(Boolean);
-    DATA_READY=true;
+    DATA_READY=true; LAST_LOAD=new Date();
     initFilters(); render();
   }catch(e){
     document.getElementById('content').innerHTML='<div class="card"><div class="empty-note">⚠️ Không tải được dữ liệu CSV.<br>Kiểm tra kết nối mạng hoặc quyền chia sẻ của Google Sheet (phải ở chế độ "Publish to web").<br><br><code style="font-size:11px;color:#94a3b8">'+esc(e.message||e)+'</code></div></div>';
@@ -465,7 +509,7 @@ const NAV=[
 const ICONS={chart:'<path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-6"/>',list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',trend:'<path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',wallet:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M17 14h.01"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',doc:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',shield:'<path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/>'};
 function svgIc(n){return '<svg viewBox="0 0 24 24">'+(ICONS[n]||ICONS.chart)+'</svg>';}
 
-let STATE={sec:'biz',page:'biz-overview'};
+let STATE={sec:'biz',page:'biz-overview',mode:'month',from:null,to:null,trendMetric:'leads'};
 function buildNav(){
   const m=document.getElementById('navMount');let h='';
   NAV.forEach(g=>{h+='<div class="nav-group">'+g.group+'</div>';
@@ -489,9 +533,11 @@ function initFilters(){
   const yrs=uniq([...LEADS.map(x=>x.y),...ADS.map(x=>x.y)]).sort((a,b)=>b-a);
   STATE.years=yrs.length?yrs:[new Date().getFullYear()];
   STATE.year=STATE.years[0];
-  // latest month with data in that year
   const mos=uniq([...LEADS,...ADS].filter(x=>x.y===STATE.year).map(x=>x.mo)).sort((a,b)=>b-a);
   STATE.month=mos.length?mos[0]:'all';
+  // default range = the latest month's span
+  if(STATE.month!=='all'){STATE.from=ymd(new Date(STATE.year,STATE.month,1));STATE.to=ymd(new Date(STATE.year,STATE.month+1,0));}
+  else{STATE.from=ymd(new Date(STATE.year,0,1));STATE.to=ymd(new Date(STATE.year,11,31));}
   STATE.adGoal=uniq(ADS.map(x=>x.goal));
   STATE.adDelivery=uniq(ADS.map(x=>x.delivery));
   STATE.adType=uniq(ADS.map(x=>x.type));
@@ -504,24 +550,45 @@ function msDropdown(id,label,opts,sel){
   return h+'</div></div>';
 }
 function renderFilters(){
-  const f=document.getElementById('globalFilters');if(!DATA_READY){f.innerHTML='';return;}
+  const f=document.getElementById('globalFilters');
   let h='';
-  h+='<select class="sel" id="fYear">'+STATE.years.map(y=>`<option ${y===STATE.year?'selected':''}>${y}</option>`).join('')+'</select>';
-  h+='<select class="sel" id="fMonth"><option value="all" '+(STATE.month==='all'?'selected':'')+'>Cả năm</option>'+MONTHS.map((m,i)=>`<option value="${i}" ${STATE.month===i?'selected':''}>Tháng ${i+1}</option>`).join('')+'</select>';
-  if(STATE.sec==='adperf'){
-    h+=msDropdown('goal','Mục tiêu',uniq(ADS.map(x=>x.goal)),STATE.adGoal);
-    h+=msDropdown('delivery','Trạng thái',uniq(ADS.map(x=>x.delivery)),STATE.adDelivery);
-    h+=msDropdown('type','Định dạng',uniq(ADS.map(x=>x.type)),STATE.adType);
+  // mode toggle
+  h+=`<div class="pill-toggle" id="modeTog"><button data-mode="month" class="${STATE.mode==='month'?'active':''}">Theo tháng</button><button data-mode="range" class="${STATE.mode==='range'?'active':''}">Khoảng ngày</button></div>`;
+  if(DATA_READY){
+    if(STATE.mode==='month'){
+      h+='<select class="sel" id="fYear">'+STATE.years.map(y=>`<option ${y===STATE.year?'selected':''}>${y}</option>`).join('')+'</select>';
+      h+='<select class="sel" id="fMonth"><option value="all" '+(STATE.month==='all'?'selected':'')+'>Cả năm</option>'+MONTHS.map((m,i)=>`<option value="${i}" ${STATE.month===i?'selected':''}>Tháng ${i+1}</option>`).join('')+'</select>';
+    }else{
+      h+=`<input type="date" class="date-inp" id="fFrom" value="${STATE.from||''}"><span class="date-sep">→</span><input type="date" class="date-inp" id="fTo" value="${STATE.to||''}">`;
+    }
+    if(STATE.sec==='adperf'){
+      h+=msDropdown('goal','Mục tiêu',uniq(ADS.map(x=>x.goal)),STATE.adGoal);
+      h+=msDropdown('delivery','Trạng thái',uniq(ADS.map(x=>x.delivery)),STATE.adDelivery);
+      h+=msDropdown('type','Định dạng',uniq(ADS.map(x=>x.type)),STATE.adType);
+    }
   }
+  h+=`<button class="btn-load" id="btnLoad"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Tải dữ liệu</button>`;
+  if(LAST_LOAD)h+=`<span class="data-stamp"><span class="dot-live"></span>Cập nhật ${LAST_LOAD.toLocaleString('vi-VN')}</span>`;
   f.innerHTML=h;
-  document.getElementById('fYear').onchange=e=>{STATE.year=+e.target.value;render();};
-  document.getElementById('fMonth').onchange=e=>{STATE.month=e.target.value==='all'?'all':+e.target.value;render();};
-  f.querySelectorAll('.ms').forEach(ms=>{
-    const id=ms.dataset.ms,trig=ms.querySelector('.ms-trigger'),panel=ms.querySelector('.ms-panel');
-    trig.onclick=e=>{e.stopPropagation();document.querySelectorAll('.ms-panel').forEach(p=>{if(p!==panel)p.classList.remove('open');});panel.classList.toggle('open');};
-    panel.querySelectorAll('.ms-actions button').forEach(b=>b.onclick=()=>{const on=b.dataset.all==='1';panel.querySelectorAll('input').forEach(i=>i.checked=on);applyMs(id,panel);});
-    panel.querySelectorAll('input').forEach(i=>i.onchange=()=>applyMs(id,panel));
-  });
+  // wire mode toggle
+  f.querySelectorAll('#modeTog button').forEach(b=>b.onclick=()=>{STATE.mode=b.dataset.mode;renderFilters();render();});
+  if(DATA_READY){
+    if(STATE.mode==='month'){
+      document.getElementById('fYear').onchange=e=>{STATE.year=+e.target.value;render();};
+      document.getElementById('fMonth').onchange=e=>{STATE.month=e.target.value==='all'?'all':+e.target.value;render();};
+    }else{
+      document.getElementById('fFrom').onchange=e=>{STATE.from=e.target.value;render();};
+      document.getElementById('fTo').onchange=e=>{STATE.to=e.target.value;render();};
+    }
+    f.querySelectorAll('.ms').forEach(ms=>{
+      const id=ms.dataset.ms,trig=ms.querySelector('.ms-trigger'),panel=ms.querySelector('.ms-panel');
+      trig.onclick=e=>{e.stopPropagation();document.querySelectorAll('.ms-panel').forEach(p=>{if(p!==panel)p.classList.remove('open');});panel.classList.toggle('open');};
+      panel.querySelectorAll('.ms-actions button').forEach(b=>b.onclick=()=>{const on=b.dataset.all==='1';panel.querySelectorAll('input').forEach(i=>i.checked=on);applyMs(id,panel);});
+      panel.querySelectorAll('input').forEach(i=>i.onchange=()=>applyMs(id,panel));
+    });
+  }
+  const bl=document.getElementById('btnLoad');
+  if(bl)bl.onclick=()=>{bl.disabled=true;bl.innerHTML='<svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Đang tải…';loadAllData();};
 }
 function applyMs(id,panel){const vals=[...panel.querySelectorAll('input:checked')].map(i=>i.value);
   if(id==='goal')STATE.adGoal=vals;if(id==='delivery')STATE.adDelivery=vals;if(id==='type')STATE.adType=vals;
@@ -532,17 +599,49 @@ document.addEventListener('click',()=>document.querySelectorAll('.ms-panel').for
 function leadsY(){return LEADS.filter(x=>x.y===STATE.year);}
 function adsAll(){return ADS.filter(x=>STATE.adGoal.includes(x.goal)&&STATE.adDelivery.includes(x.delivery)&&STATE.adType.includes(x.type));}
 function inPeriod(x,y,m){return x.y===y&&(m==='all'||x.mo===m);}
+function dOnly(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function addMonths(d,n){return new Date(d.getFullYear(),d.getMonth()+n,d.getDate());}
+function inRange(dt,a,b){const t=dOnly(dt).getTime();return t>=a.getTime()&&t<=b.getTime();}
+function eachDay(a,b){const out=[];let d=new Date(a);while(d<=b){out.push(new Date(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1);}return out;}
+
 function period(){
+  if(STATE.mode==='range'&&STATE.from&&STATE.to){
+    let a=dOnly(parseDate(STATE.from)),b=dOnly(parseDate(STATE.to));
+    if(a>b){const t=a;a=b;b=t;}
+    // MoM previous = same span shifted back one month
+    const pa=dOnly(addMonths(a,-1)),pb=dOnly(addMonths(b,-1));
+    const AD=adsAll();
+    const fmt=d=>dmy(d);
+    return {mode:'range',isMonth:false,from:a,to:b,pfrom:pa,pto:pb,
+      leadsP:LEADS.filter(x=>inRange(x.date,a,b)),
+      adsP:AD.filter(x=>inRange(x.date,a,b)),
+      leadsPrev:LEADS.filter(x=>inRange(x.date,pa,pb)),
+      adsPrev:AD.filter(x=>inRange(x.date,pa,pb)),
+      days:eachDay(a,b),
+      label:fmt(a)+' – '+fmt(b),prevLabel:fmt(pa)+' – '+fmt(pb),
+      y:a.getFullYear(),m:a.getMonth()};
+  }
   const m=STATE.month,y=STATE.year;const isMonth=m!=='all';
   let pm=m,py=y;if(isMonth){pm=m-1;if(pm<0){pm=11;py=y-1;}}else{py=y-1;}
-  return {y,m,isMonth,py,pm,
+  const AD=adsAll();
+  return {mode:'month',y,m,isMonth,py,pm,
     leadsP:LEADS.filter(x=>inPeriod(x,y,m)),
-    adsP:adsAll().filter(x=>inPeriod(x,y,m)),
+    adsP:AD.filter(x=>inPeriod(x,y,m)),
     leadsPrev:LEADS.filter(x=>inPeriod(x,py,isMonth?pm:'all')),
-    adsPrev:adsAll().filter(x=>inPeriod(x,py,isMonth?pm:'all')),
+    adsPrev:AD.filter(x=>inPeriod(x,py,isMonth?pm:'all')),
     label:isMonth?('Tháng '+(m+1)+'/'+y):('Năm '+y),
     prevLabel:isMonth?('Tháng '+(pm+1)+'/'+py):('Năm '+py)};
 }
+// generic day/month series over a period for ANY field, returns {lab,val,labFull(dates)}
+function seriesOf(arr,P,field,fn){
+  if(P.mode==='range'){const days=P.days;const m=leadsOrAdsByDay(arr);
+    return {lab:days.map(d=>d.getDate()+'/'+(d.getMonth()+1)),val:days.map(d=>agg(m[ymd(d)]||[],field,fn)),dates:days};}
+  if(P.isMonth){const dim=new Date(P.y,P.m+1,0).getDate();const days=Array.from({length:dim},(_,i)=>new Date(P.y,P.m,i+1));
+    const m=leadsOrAdsByDay(arr);return {lab:days.map(d=>d.getDate()),val:days.map(d=>agg(m[ymd(d)]||[],field,fn)),dates:days};}
+  return {lab:MONTHS,val:MONTHS.map((_,i)=>agg(arr.filter(x=>x.mo===i),field,fn)),dates:null};
+}
+function leadsOrAdsByDay(arr){const m={};arr.forEach(r=>{const k=ymd(r.date);(m[k]=m[k]||[]).push(r);});return m;}
+function agg(rows,field,fn){if(fn)return fn(rows);return rows.reduce((a,b)=>a+(+b[field]||0),0);}
 
 /* ===================== AGGREGATIONS ===================== */
 function sumAds(arr){const k=['spend','reach','impr','eng','comments','msg','clicks','linkclicks','newmsg','thruplay'];const o={};k.forEach(x=>o[x]=0);arr.forEach(r=>k.forEach(x=>o[x]+=r[x]));
@@ -570,41 +669,80 @@ function render(){
   (fn||(()=>document.getElementById('content').innerHTML='<div class="card"><div class="empty-note">Trang đang phát triển.</div></div>'))();
 }
 function setC(html){document.getElementById('content').innerHTML=html;}
-function dataNote(map,defs,name){const miss=Object.keys(defs).filter(k=>!map[k]);
-  return `<div class="card" style="margin-top:18px"><div class="card-head"><h3>ⓘ Nguồn dữ liệu · ${name}</h3></div><div style="font-size:12px;color:var(--muted);line-height:1.7">Cột đã nhận diện: ${Object.entries(map).map(([k,v])=>`<b style="color:var(--ink2)">${k}</b>→“${esc(v)}”`).join(' · ')||'—'}.${miss.length?`<br><span style="color:var(--orange)">Chưa khớp cột: ${miss.join(', ')} — có thể tên cột trong sheet khác mô tả; báo lại để tôi bổ sung ánh xạ.</span>`:''}</div></div>`;}
+function dataNote(){return '';}
+/* page highlight strip (short, a few sentences) */
+function highlight(items){ // items: [{type,icon,html}]
+  return `<div style="margin-bottom:18px">`+items.filter(Boolean).map(i=>ins(i.type,i.icon,i.html)).join('')+`</div>`;}
+function prevDescriptor(P){
+  if(P.mode==='range')return {mode:'range',days:eachDay(P.pfrom,P.pto)};
+  if(P.isMonth)return {mode:'month',isMonth:true,y:P.py,m:P.pm};
+  return {mode:'month',isMonth:false};
+}
+function alignLen(a,n){const o=a.slice(0,n);while(o.length<n)o.push(null);return o;}
+// metric registry for the selectable daily-trend chart
+const TREND_METRICS={
+  leads:{label:'Lead',color:C.accent,fmt:nf,kind:'leads',fn:r=>r.length},
+  booked:{label:'Booking',color:C.good,fmt:nf,kind:'leads',fn:r=>r.filter(x=>x.sk==='booked').length},
+  msg:{label:'Tin nhắn QC',color:C.pink,fmt:nf,kind:'ads',field:'msg'},
+  spend:{label:'Chi tiêu QC',color:C.purple,fmt:vndC,kind:'ads',field:'spend'},
+  reach:{label:'Tiếp cận',color:C.teal,fmt:numC,kind:'ads',field:'reach'},
+  cpl:{label:'CPL (₫/tin nhắn)',color:C.orange,fmt:vndC,kind:'ads',fn:r=>{const s=r.reduce((a,b)=>a+b.spend,0),m=r.reduce((a,b)=>a+b.msg,0);return div(s,m);}},
+  ctr:{label:'CTR (%)',color:C.info,fmt:v=>pct(v,2),kind:'ads',fn:r=>{const l=r.reduce((a,b)=>a+b.linkclicks,0),i=r.reduce((a,b)=>a+b.impr,0);return div(l,i)*100;}}
+};
+function trendChips(active,onPrefix){
+  return `<div class="chips">`+Object.entries(TREND_METRICS).map(([k,m])=>
+    `<button class="chip ${k===active?'on':''}" onclick="setTrend('${k}')">${m.label}</button>`).join('')+`</div>`;}
+function setTrend(k){STATE.trendMetric=k;render();}
+function setCmp(k){STATE.cmpMetric=k;render();}
+// lead day map join
+function leadDayRows(arr){const m={};arr.forEach(r=>{const k=ymd(r.date);(m[k]=m[k]||[]).push(r);});return m;}
 /* ========== BIZ • TRANG 1: TỔNG QUAN ========== */
 function rBizOverview(){
   const P=period();const lp=P.leadsP,lprev=P.leadsPrev;
   const tot=lp.length,bk=bookedCount(lp),totPrev=lprev.length,bkPrev=bookedCount(lprev);
   const unq=lp.filter(x=>x.sk==='unqualified').length, rej=lp.filter(x=>x.sk==='rejected').length;
-  const qualRate=div(tot-unq,tot)*100, closeRate=div(bk,tot)*100, closeRatePrev=div(bkPrev,totPrev)*100;
+  const unqPrev=lprev.filter(x=>x.sk==='unqualified').length;
+  const qualRate=div(tot-unq,tot)*100, qualRatePrev=div(totPrev-unqPrev,totPrev)*100;
+  const closeRate=div(bk,tot)*100, closeRatePrev=div(bkPrev,totPrev)*100;
   const active=lp.filter(x=>['new','consult','sitecheck','negotiate'].includes(x.sk)).length;
+  const activePrev=lprev.filter(x=>['new','consult','sitecheck','negotiate'].includes(x.sk)).length;
+  const ap=sumAds(P.adsP),apv=sumAds(P.adsPrev);
   const hasVal=LEADS.some(x=>x.value>0);
   const rev=lp.filter(x=>x.sk==='booked').reduce((a,b)=>a+b.value,0);
   const revPrev=lprev.filter(x=>x.sk==='booked').reduce((a,b)=>a+b.value,0);
-  // time to close
-  const hasEdate=!!LEAD_MAP.edate;
-  let ttc=lp.filter(x=>x.sk==='booked'&&x.edate).map(x=>(x.edate-x.date)/864e5).filter(d=>d>=0&&d<420);
-  const avgTtc=ttc.length?ttc.reduce((a,b)=>a+b,0)/ttc.length:0;
 
   let kpis=[
-    kpi({ic:'target',color:'bg-blue',label:'Tổng Lead '+P.label,val:nf(tot),trend:trendArrow(tot,totPrev),foot:'kỳ trước '+nf(totPrev)}),
-    kpi({ic:'chart',color:'bg-green',label:'Booking 🥂',val:nf(bk),trend:trendArrow(bk,bkPrev),foot:'kỳ trước '+nf(bkPrev)}),
-    kpi({ic:'trend',color:'bg-purple',label:'Tỷ lệ chốt',val:pct(closeRate),trend:trendArrow(closeRate,closeRatePrev),foot:'lead → booked'}),
-    kpi({ic:'shield',color:'bg-teal',label:'Chất lượng lead (qualified)',val:pct(qualRate),foot:nf(unq)+' lead unqualified'}),
-    kpi({ic:'list',color:'bg-orange',label:'Đang trong pipeline',val:nf(active),foot:'lead đang tư vấn/thương thảo'}),
-    hasVal?kpi({ic:'wallet',color:'bg-pink',label:'Doanh thu booked (ước tính)',val:vndC(rev),trend:trendArrow(rev,revPrev),foot:'kỳ trước '+vndC(revPrev)})
-      :kpi({ic:'cal',color:'bg-pink',label:'Thời hạn chốt TB',val:hasEdate?(avgTtc.toFixed(0)+' ngày'):'—',foot:hasEdate?(ttc.length+' booking có ngày tổ chức'):'cần cột ngày tổ chức'})
-  ].join('');
+    kpi({ic:'target',color:'bg-blue',label:'Tổng Lead',val:nf(tot),trend:trendArrow(tot,totPrev),foot:P.prevLabel+': '+nf(totPrev)}),
+    kpi({ic:'chart',color:'bg-green',label:'Booking 🥂',val:nf(bk),trend:trendArrow(bk,bkPrev),foot:P.prevLabel+': '+nf(bkPrev)}),
+    kpi({ic:'trend',color:'bg-purple',label:'Tỷ lệ chốt',val:pct(closeRate),trend:trendArrow(closeRate,closeRatePrev),foot:P.prevLabel+': '+pct(closeRatePrev)}),
+    kpi({ic:'shield',color:'bg-teal',label:'Chất lượng lead',val:pct(qualRate),trend:trendArrow(qualRate,qualRatePrev),foot:nf(unq)+' lead unqualified'}),
+    kpi({ic:'list',color:'bg-orange',label:'Đang trong pipeline',val:nf(active),trend:trendArrow(active,activePrev),foot:'lead đang tư vấn/thương thảo'}),
+    kpi({ic:'wallet',color:'bg-pink',label:'Chi phí QC',val:vndC(ap.spend),trend:trendArrow(apv.spend,ap.spend),foot:'CPL '+(ap.msg?vndC(ap.cpl):'—')}),
+    hasVal?kpi({ic:'doc',color:'bg-info',label:'Doanh thu booked (ước tính)',val:vndC(rev),trend:trendArrow(rev,revPrev),foot:P.prevLabel+': '+vndC(revPrev)}):null,
+    kpi({ic:'cal',color:'bg-info',label:'Chi phí / booking',val:bk?vndC(div(ap.spend,bk)):'—',trend:bk&&bkPrev?trendArrow(div(apv.spend,bkPrev),div(ap.spend,bk)):null,foot:'blended'})
+  ].filter(Boolean).join('');
 
-  // monthly comparison full year
-  const byMo=MONTHS.map((_,i)=>{const a=leadsY().filter(x=>x.mo===i);return {leads:a.length,booked:bookedCount(a)};});
-  // daily/period trend
-  let trendLabels,trendLeads,trendBooked,trendTitle;
-  if(P.isMonth){const dim=new Date(P.y,P.m+1,0).getDate();trendLabels=Array.from({length:dim},(_,i)=>i+1);
-    trendLeads=trendLabels.map(d=>lp.filter(x=>x.date.getDate()===d).length);
-    trendBooked=trendLabels.map(d=>lp.filter(x=>x.date.getDate()===d&&x.sk==='booked').length);trendTitle='Diễn biến theo ngày · '+P.label;}
-  else{trendLabels=MONTHS;trendLeads=byMo.map(x=>x.leads);trendBooked=byMo.map(x=>x.booked);trendTitle='Diễn biến theo tháng · '+P.y;}
+  // highlight
+  const tA=trendArrow(tot,totPrev),bA=trendArrow(bk,bkPrev);
+  const hi=highlight([
+    {type:bk>=bkPrev?'ok':'warn',icon:bk>=bkPrev?'trend':'info',html:`Kỳ <b>${P.label}</b>: <b>${nf(tot)}</b> lead (${tA.t} so với kỳ trước), chốt <b>${nf(bk)}</b> booking (${bA.t}), tỷ lệ chốt <b>${pct(closeRate)}</b>.`},
+    {type:ap.msg&&ap.cpl<=(apv.cpl||1e18)?'ok':'info',icon:'wallet',html:`Chi quảng cáo <b>${vndC(ap.spend)}</b>, tạo <b>${nf(ap.msg)}</b> tin nhắn · CPL <b>${ap.msg?vndC(ap.cpl):'—'}</b>${apv.msg?` (kỳ trước ${vndC(apv.cpl)})`:''}.`}
+  ]);
+
+  // month comparison (selectable metric)
+  const cmpMetric=STATE.cmpMetric||'leadbook';
+  const CMP={leadbook:'Lead & Booking',close:'Tỷ lệ chốt (%)',spend:'Chi phí QC',msg:'Tin nhắn QC',cpl:'CPL'};
+  const adsByMo=i=>sumAds(adsAll().filter(x=>x.y===P.y&&x.mo===i));
+  const byMo=MONTHS.map((_,i)=>{const a=leadsY().filter(x=>x.mo===i);const s=adsByMo(i);
+    return {leads:a.length,booked:bookedCount(a),close:div(bookedCount(a),a.length)*100,spend:s.spend,msg:s.msg,cpl:s.cpl};});
+  const cmpChips=`<div class="chips">`+Object.entries(CMP).map(([k,l])=>`<button class="chip ${k===cmpMetric?'on':''}" onclick="setCmp('${k}')">${l}</button>`).join('')+`</div>`;
+
+  // selectable daily trend (this period vs prev dashed)
+  const tm=STATE.trendMetric||'leads';const M=TREND_METRICS[tm];
+  const curArr=M.kind==='leads'?lp:P.adsP, prevArr=M.kind==='leads'?lprev:P.adsPrev;
+  const sCur=seriesOf(curArr,P,M.field,M.fn);
+  const sPrev=seriesOf(prevArr,prevDescriptor(P),M.field,M.fn);
+  const prevAligned=alignLen(sPrev.val,sCur.val.length);
 
   // funnel
   const stCount=countBy(lp,x=>x.sk);
@@ -612,18 +750,15 @@ function rBizOverview(){
     return `<div class="fn-row"><div class="fn-bar" style="width:${w}%;background:${STAGE_COLOR[k]}">${STAGE_LABEL[k]}</div><span class="fn-meta">${nf(v)} (${pct(div(v,tot)*100)})</span></div>`;}).join('');
   const extraStages=['rejected','unqualified','other'].filter(k=>stCount[k]).map(k=>`<div class="fn-row"><div class="fn-bar" style="width:${Math.max(div(stCount[k],tot)*100,4)}%;background:${STAGE_COLOR[k]}">${STAGE_LABEL[k]}</div><span class="fn-meta">${nf(stCount[k])}</span></div>`).join('');
 
-  // event type & size
   const et=sumBy(lp,x=>x.etype);const etL=Object.keys(et).sort((a,b)=>et[b]-et[a]).slice(0,8);
   const es=sumBy(lp,x=>x.esize);const esL=Object.keys(es).sort((a,b)=>es[b]-es[a]).slice(0,8);
-
-  // quality breakdown
   const qLabels=['Booked','Pipeline','Rejected','Unqualified'];
-  const qVals=[bk,active,rej,unq];const qCol=['#22c55e','#3b82f6','#ef4444','#94a3b8'];
+  const qVals=[bk,active,rej,unq];const qCol=[C.good,C.accent,C.bad,'#9494ab'];
 
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
+  let html=hi+`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
-    ${card('So sánh các tháng trong năm '+P.y,'Số lead & booking theo từng tháng','<div class="chart-box h300"><canvas id="chMonthly"></canvas></div>')}
-    ${card(trendTitle,'Lead vs Booking','<div class="chart-box h300"><canvas id="chDaily"></canvas></div>')}
+    ${card('So sánh các tháng trong năm '+P.y,'Chọn chỉ số để xem',cmpChips+'<div class="chart-box h300" style="margin-top:6px"><canvas id="chMonthly"></canvas></div>')}
+    ${card('Diễn biến theo thời gian','Đường liền: '+P.label+' · đường đứt: '+P.prevLabel,trendChips(tm)+'<div class="chart-box h300" style="margin-top:6px"><canvas id="chDaily"></canvas></div>')}
   </div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
     ${card('Tình trạng tư vấn lead','Phễu chuyển đổi qua các giai đoạn',`<div class="funnel">${funnelHtml}${extraStages?'<div style="height:8px"></div>'+extraStages:''}</div>`)}
@@ -633,33 +768,28 @@ function rBizOverview(){
     ${card('Tỷ trọng loại hình event','E_Type',`<div class="split"><div class="chart-box h260"><canvas id="chEtype"></canvas></div><div class="donut-legend">${donutLegend(etL,etL.map(k=>et[k]),etL.map((_,i)=>PAL[i%PAL.length]))}</div></div>`)}
     ${card('Tỷ trọng quy mô event','E_Size',`<div class="split"><div class="chart-box h260"><canvas id="chEsize"></canvas></div><div class="donut-legend">${donutLegend(esL,esL.map(k=>es[k]),esL.map((_,i)=>PAL[(i+3)%PAL.length]))}</div></div>`)}
   </div>`;
-  // time to close
-  if(hasEdate){const buckets=['≤7 ngày','8-14','15-30','31-60','>60'];const bv=[0,0,0,0,0];
-    ttc.forEach(d=>{if(d<=7)bv[0]++;else if(d<=14)bv[1]++;else if(d<=30)bv[2]++;else if(d<=60)bv[3]++;else bv[4]++;});
-    html+=card('Thời hạn chốt sale','Số ngày từ lúc nhận lead đến ngày tổ chức (booking) · TB '+avgTtc.toFixed(0)+' ngày',`<div class="chart-box h220"><canvas id="chTtc"></canvas></div>`);
-    html=html+`<div style="height:18px"></div>`;
-    window.__ttcBuckets={buckets,bv};
-  }
-  html+=dataNote(LEAD_MAP,LEAD_DEFS,'Lead CRM');
   setC(html);
 
-  // draw
-  mkChart('chMonthly',{type:'bar',data:{labels:MONTHS,datasets:[
-    {label:'Lead',data:byMo.map(x=>x.leads),backgroundColor:'#bcd3ff',borderRadius:7,maxBarThickness:26},
-    {label:'Booking',data:byMo.map(x=>x.booked),backgroundColor:'#3b82f6',borderRadius:7,maxBarThickness:26}]},
-    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:c=>c.dataset.label==='Booking'&&c.dataset.data[c.dataIndex]>0,anchor:'end',align:'end',font:{weight:'700',size:10},color:'#2f6bff',formatter:v=>v||''}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
-  mkChart('chDaily',{type:'line',data:{labels:trendLabels,datasets:[
-    {label:'Lead',data:trendLeads,borderColor:'#3b82f6',borderWidth:2.5,tension:.4,pointRadius:0,fill:true,
-      backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(59,130,246,.28)','rgba(59,130,246,0)')},
-    {label:'Booking',data:trendBooked,borderColor:'#22c55e',borderWidth:2.5,tension:.4,pointRadius:0,fill:true,
-      backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(34,197,94,.22)','rgba(34,197,94,0)')}]},
-    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
+  // month-comparison chart
+  let mds;
+  if(cmpMetric==='leadbook')mds=[
+    {label:'Lead',data:byMo.map(x=>x.leads),backgroundColor:C.accentLt,borderRadius:7,maxBarThickness:24},
+    {label:'Booking',data:byMo.map(x=>x.booked),backgroundColor:C.accent,borderRadius:7,maxBarThickness:24}];
+  else{const map={close:['close',C.purple],spend:['spend',C.brand],msg:['msg',C.pink],cpl:['cpl',C.orange]};const[f,col]=map[cmpMetric];
+    mds=[{label:CMP[cmpMetric],data:byMo.map(x=>x[f]),backgroundColor:col,borderRadius:7,maxBarThickness:34}];}
+  mkChart('chMonthly',{type:'bar',data:{labels:MONTHS,datasets:mds},
+    options:{plugins:{legend:{display:cmpMetric==='leadbook',position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>cmpMetric==='spend'||cmpMetric==='cpl'?vndC(v):cmpMetric==='close'?v+'%':nf(v)}},x:AXISX}}});
+  // daily trend with prev dashed
+  mkChart('chDaily',{type:'line',data:{labels:sCur.lab,datasets:[
+    {label:M.label+' · '+P.label,data:sCur.val,borderColor:M.color,borderWidth:2.6,tension:.4,pointRadius:0,fill:true,
+      backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(63,61,153,.16)',C.accentFill0)},
+    {label:M.label+' · '+P.prevLabel,data:prevAligned,borderColor:'#9494ab',borderWidth:2,borderDash:[5,4],tension:.4,pointRadius:0,fill:false}]},
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>M.fmt(v)}},x:AXISX}}});
   donut('chQuality',qVals,qCol);
   donut('chEtype',etL.map(k=>et[k]),etL.map((_,i)=>PAL[i%PAL.length]));
   donut('chEsize',esL.map(k=>es[k]),esL.map((_,i)=>PAL[(i+3)%PAL.length]));
-  if(hasEdate){const {buckets,bv}=window.__ttcBuckets;mkChart('chTtc',{type:'bar',data:{labels:buckets,datasets:[{data:bv,backgroundColor:['#22c55e','#3b82f6','#a855f7','#f59e0b','#ef4444'],borderRadius:8,maxBarThickness:60}]},options:{plugins:{datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700'},color:'#475569',formatter:v=>v||''}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});}
 }
-function donut(id,vals,colors){mkChart(id,{type:'doughnut',data:{labels:vals.map((_,i)=>i),datasets:[{data:vals,backgroundColor:colors,borderWidth:3,borderColor:'#f3f5fb',hoverOffset:6}]},options:{cutout:'62%',plugins:{datalabels:{display:c=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return c.dataset.data[c.dataIndex]/t>0.06;},color:'#fff',font:{weight:'700',size:11},formatter:(v,c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return Math.round(v/t*100)+'%';}}}}});}
+function donut(id,vals,colors){mkChart(id,{type:'doughnut',data:{labels:vals.map((_,i)=>i),datasets:[{data:vals,backgroundColor:colors,borderWidth:3,borderColor:'#f4f4fa',hoverOffset:6}]},options:{cutout:'62%',plugins:{datalabels:{display:c=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return c.dataset.data[c.dataIndex]/t>0.06;},color:'#fff',font:{weight:'700',size:11},formatter:(v,c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0);return Math.round(v/t*100)+'%';}}}}});}
 /* ========== shared helpers ========== */
 function adsByDayMap(arr){const m={};arr.forEach(r=>{const k=ymd(r.date);(m[k]=m[k]||[]).push(r);});return m;}
 function buildTable(head,rows,minw){let h=`<div class="tbl-wrap"><table${minw?` style="min-width:${minw}px"`:''}><thead><tr>`;head.forEach(x=>h+=`<th>${x}</th>`);h+='</tr></thead><tbody>';
@@ -669,13 +799,16 @@ function tag(t,cls){return `<span class="badge ${cls}">${t}</span>`;}
 
 /* ========== BIZ • TRANG 2: HIỆU SUẤT THEO NGÀY ========== */
 function rBizDaily(){
-  const P=period();if(!P.isMonth){setC(`<div class="card"><div class="empty-note">Vui lòng chọn <b>một tháng cụ thể</b> ở bộ lọc phía trên để xem bảng chi tiết theo ngày.</div></div>`+dataNote(LEAD_MAP,LEAD_DEFS,'Lead CRM'));return;}
-  const dim=new Date(P.y,P.m+1,0).getDate();
-  const adMap=adsByDayMap(P.adsP);
+  const P=period();
+  let days;
+  if(P.mode==='range')days=P.days;
+  else if(P.isMonth){const dim=new Date(P.y,P.m+1,0).getDate();days=Array.from({length:dim},(_,i)=>new Date(P.y,P.m,i+1));}
+  else{setC(`<div class="card"><div class="empty-note">Chọn <b>một tháng cụ thể</b> hoặc chuyển sang <b>Khoảng ngày</b> để xem bảng chi tiết theo ngày.</div></div>`);return;}
+  const adMap=adsByDayMap(P.adsP),ldMap=leadDayRows(P.leadsP);
   const rows=[];let tL=0,tB=0,tS=0,tM=0;
-  for(let d=1;d<=dim;d++){
-    const ld=P.leadsP.filter(x=>x.date.getDate()===d);
-    const ad=adMap[ymd(new Date(P.y,P.m,d))]||[];const s=sumAds(ad);
+  days.forEach(dt=>{
+    const key=ymd(dt);
+    const ld=ldMap[key]||[];const ad=adMap[key]||[];const s=sumAds(ad);
     const leads=ld.length,bk=ld.filter(x=>x.sk==='booked').length;
     tL+=leads;tB+=bk;tS+=s.spend;tM+=s.msg;
     let flag=tag('Bình thường','tag-mut');
@@ -683,119 +816,185 @@ function rBizDaily(){
     else if(s.spend>0&&leads===0)flag=tag('⚠ Có phí · 0 lead','tag-warn');
     else if(bk>0)flag=tag('★ Có booking','tag-good');
     else if(leads>0)flag=tag('Có lead','tag-info');
-    if(leads===0&&s.spend===0){continue;}
-    rows.push([dmy(new Date(P.y,P.m,d)),nf(leads),nf(bk),s.spend?vnd(s.spend):'—',nf(s.msg),s.msg?vnd(s.cpl):'—',nf(s.reach),nf(s.impr),s.impr?pct(s.ctr):'—',flag]);
-  }
-  let html=`<div class="mini-kpis">
-    <div class="mini"><div class="ml">Tổng lead tháng</div><div class="mv">${nf(tL)}</div></div>
-    <div class="mini"><div class="ml">Booking</div><div class="mv" style="color:var(--good)">${nf(tB)}</div></div>
-    <div class="mini"><div class="ml">Chi phí QC</div><div class="mv" style="color:var(--accent)">${vndC(tS)}</div></div>
-    <div class="mini"><div class="ml">Tin nhắn QC</div><div class="mv">${nf(tM)}</div></div>
+    if(leads===0&&s.spend===0)return;
+    rows.push([dmy(dt),nf(leads),nf(bk),s.spend?vnd(s.spend):'—',nf(s.msg),s.msg?vnd(s.cpl):'—',leads?vndC(div(s.spend,leads)):'—',nf(s.reach),nf(s.impr),s.impr?pct(s.ctr):'—',flag]);
+  });
+  // MoM prev totals
+  const sv=sumAds(P.adsPrev);const tLp=P.leadsPrev.length,tBp=bookedCount(P.leadsPrev);
+  const mc=(l,v,prev,col,fmt)=>{const f=fmt||nf;const t=trendArrow(v,prev);return `<div class="mini"><div class="ml">${l}</div><div class="mv" ${col?`style="color:${col}"`:''}>${f(v)}</div><div style="font-size:11px;font-weight:700;margin-top:2px" class="trend ${t.cls}">${t.t} <span style="color:var(--muted);font-weight:500">vs kỳ trước</span></div></div>`;};
+  let html=highlight([
+    {type:tB>=tBp?'ok':'warn',icon:tB>=tBp?'trend':'info',html:`Kỳ <b>${P.label}</b>: <b>${nf(tL)}</b> lead · <b>${nf(tB)}</b> booking · chi QC <b>${vndC(tS)}</b> · CPL blended <b>${tM?vnd(tS/tM):'—'}</b>.`},
+    {type:'info',icon:'list',html:`Cột "Cảnh báo" tự đánh dấu ngày tốn phí nhưng <b>0 tin nhắn / 0 lead</b> để xử lý nhanh.`}
+  ]);
+  html+=`<div class="mini-kpis">
+    ${mc('Tổng lead',tL,tLp)}
+    ${mc('Booking',tB,tBp,'var(--good)')}
+    ${mc('Chi phí QC',tS,sv.spend,'var(--accent)',vndC)}
+    ${mc('Tin nhắn QC',tM,sv.msg)}
     <div class="mini"><div class="ml">CPL blended</div><div class="mv">${tM?vnd(tS/tM):'—'}</div></div>
     <div class="mini"><div class="ml">Chi phí / booking</div><div class="mv">${tB?vndC(tS/tB):'—'}</div></div>
   </div>`;
-  html+=card('Bảng hiệu suất chi tiết theo ngày · '+P.label,'Kết hợp lead, booking và chỉ số quảng cáo · cột "Cảnh báo" nêu vấn đề của ngày',
-    buildTable(['Ngày','Lead','Booked','Chi phí QC','Tin nhắn','CPL','Tiếp cận','Hiển thị','CTR','Cảnh báo'],rows,900));
+  html+=card('Bảng hiệu suất chi tiết theo ngày · '+P.label,'Kết hợp lead, booking & chỉ số quảng cáo (ghép theo ngày) · cột "Cảnh báo" nêu vấn đề của ngày',
+    buildTable(['Ngày','Lead','Booked','Chi phí QC','Tin nhắn','CPL','Chi phí/Lead','Tiếp cận','Hiển thị','CTR','Cảnh báo'],rows,980));
   setC(html);
 }
 
 /* ========== BIZ • TRANG 3: LỊCH EVENT ========== */
-function rBizCalendar(){
-  let y=STATE.year,m=STATE.month;if(m==='all'){const mos=uniq(LEADS.filter(x=>x.y===y).map(x=>x.mo)).sort((a,b)=>b-a);m=mos.length?mos[0]:new Date().getMonth();}
-  const lp=LEADS.filter(x=>x.y===y&&x.mo===m);
-  // events on calendar: booked leads, placed on edate if present else lead date
-  const evMap={};lp.filter(x=>x.sk==='booked').forEach(x=>{const dd=(x.edate&&x.edate.getMonth()===m&&x.edate.getFullYear()===y)?x.edate:x.date;const k=dd.getDate();(evMap[k]=evMap[k]||[]).push(x);});
+function calGrid(y,m,evMap,labelFn){
   const first=new Date(y,m,1).getDay();const dim=new Date(y,m+1,0).getDate();
   const dows=['CN','T2','T3','T4','T5','T6','T7'];
   let cells='';for(let i=0;i<7;i++)cells+=`<div class="dow">${dows[i]}</div>`;
   for(let i=0;i<first;i++)cells+='<div class="cell empty"></div>';
   for(let d=1;d<=dim;d++){const ev=evMap[d]||[];
-    let inner=`<div class="d">${d}</div>`;ev.slice(0,3).forEach((e,i)=>inner+=`<div class="ev" style="background:${PAL[i%PAL.length]}" title="${esc(e.name||e.etype)}">${esc(e.name||e.etype||'Tiệc')}</div>`);
-    if(ev.length>3)inner+=`<div style="font-size:9px;color:var(--muted);margin-top:2px">+${ev.length-3} tiệc</div>`;
+    let inner=`<div class="d">${d}</div>`;ev.slice(0,3).forEach((e,i)=>inner+=`<div class="ev" style="background:${PAL[i%PAL.length]}" title="${esc(labelFn(e))}">${esc(labelFn(e))}</div>`);
+    if(ev.length>3)inner+=`<div style="font-size:9px;color:var(--muted);margin-top:2px">+${ev.length-3}</div>`;
     cells+=`<div class="cell${ev.length?' has':''}">${inner}</div>`;}
-  // stage classification
+  return `<div class="cal">${cells}</div>`;
+}
+function rBizCalendar(){
+  let y=STATE.year,m=STATE.month;
+  if(STATE.mode==='range'&&STATE.from){const a=parseDate(STATE.from);y=a.getFullYear();m=a.getMonth();}
+  if(m==='all'){const mos=uniq(LEADS.filter(x=>x.y===y).map(x=>x.mo)).sort((a,b)=>b-a);m=mos.length?mos[0]:new Date().getMonth();}
+  const hasEdate=!!LEAD_MAP.edate;
+  const allBooked=LEADS.filter(x=>x.sk==='booked');
+  const lblMonth='Tháng '+(m+1)+'/'+y;
+  const evLabel=e=>e.name||e.etype||'Tiệc';
+  // View 1: parties happening this month — by E_Date
+  const partyMap={};let partyCount=0;
+  allBooked.forEach(x=>{const d=x.edate;if(d&&d.getFullYear()===y&&d.getMonth()===m){(partyMap[d.getDate()]=partyMap[d.getDate()]||[]).push(x);partyCount++;}});
+  // View 2: bookings closed this month — by L_Date
+  const closeMap={};let closeCount=0;
+  allBooked.forEach(x=>{const d=x.date;if(d.getFullYear()===y&&d.getMonth()===m){(closeMap[d.getDate()]=closeMap[d.getDate()]||[]).push(x);closeCount++;}});
+  // View 3: detail of bookings closed this month → which party date
+  const closedThisMonth=allBooked.filter(x=>x.date.getFullYear()===y&&x.date.getMonth()===m)
+    .sort((a,b)=>a.date-b.date);
+
+  // stage classification for the month (by L_Date)
+  const lp=LEADS.filter(x=>x.y===y&&x.mo===m);
   const order=['booked','rejected','new','consult','sitecheck','negotiate','unqualified'];
   const sc=countBy(lp,x=>x.sk);
-  const clsCards=order.map((k,i)=>`<div class="mini"><div class="ml" style="color:${STAGE_COLOR[k]}">${STAGE_LABEL[k]}</div><div class="mv">${nf(sc[k]||0)}</div></div>`).join('');
-  let html=`<div class="mini-kpis">${clsCards}</div>`;
-  html+=card('Lịch event Tháng '+(m+1)+'/'+y,'Các tiệc đã Booking 🥂 ('+(LEAD_MAP.edate?'theo ngày tổ chức':'theo ngày nhận lead — chưa có cột ngày tổ chức')+') · tổng '+(lp.filter(x=>x.sk==='booked').length)+' tiệc',`<div class="cal">${cells}</div>`);
-  html+=dataNote(LEAD_MAP,LEAD_DEFS,'Lead CRM');
+  const clsCards=order.map(k=>`<div class="mini"><div class="ml" style="color:${STAGE_COLOR[k]}">${STAGE_LABEL[k]}</div><div class="mv">${nf(sc[k]||0)}</div></div>`).join('');
+
+  let html=highlight([
+    {type:'ok',icon:'cal',html:`${lblMonth}: <b>${nf(closeCount)}</b> booking được chốt (theo ngày nhận lead)${hasEdate?` · <b>${nf(partyCount)}</b> tiệc tổ chức trong tháng (theo ngày tiệc)`:''}.`},
+    hasEdate?null:{type:'warn',icon:'info',html:`Chưa nhận diện được cột <b>E_Date</b> (ngày tổ chức) nên "Lịch tiệc diễn ra" sẽ trống; báo lại tên cột để bổ sung.`}
+  ]);
+  html+=`<div class="mini-kpis">${clsCards}</div>`;
+  html+=`<div class="cal-wrap" style="margin-bottom:18px">
+    ${card('① Lịch tiệc diễn ra · '+lblMonth, hasEdate?'Theo E_Date — ngày tổ chức tiệc · '+partyCount+' tiệc':'Cần cột E_Date', calGrid(y,m,partyMap,evLabel))}
+    ${card('② Lịch ngày chốt booking · '+lblMonth,'Theo L_Date — ngày nhận lead chốt thành công · '+closeCount+' booking', calGrid(y,m,closeMap,evLabel))}
+  </div>`;
+  const dRows=closedThisMonth.map(x=>{
+    const lead=dmy(x.date), party=x.edate?dmy(x.edate):'—';
+    const lt=(x.edate)?Math.round((dOnly(x.edate)-dOnly(x.date))/864e5):null;
+    return [lead,party,lt!=null?(lt>=0?lt+' ngày':tag('Ngày tiệc < ngày chốt','tag-warn')):'—',esc(x.etype),esc(x.esize),esc(x.source),esc(x.name||'—')];
+  });
+  html+=card('③ Chi tiết booking chốt trong '+lblMonth,'Khách đặt (nhận lead) ngày nào → tổ chức tiệc ngày nào · sắp theo ngày chốt',
+    buildTable(['Ngày nhận lead (chốt)','Ngày tổ chức tiệc','Thời gian chuẩn bị','Loại tiệc','Quy mô','Nguồn','Khách hàng'],dRows,820));
   setC(html);
 }
 
 /* ========== BIZ • TRANG 4: DỰ BÁO ========== */
 function rBizForecast(){
   const P=period();const lp=P.leadsP,ap=P.adsP;
-  let y=P.y,m=P.isMonth?P.m:new Date().getMonth();
+  let y=P.y,m=P.isMonth?P.m:(P.mode==='range'?P.from.getMonth():new Date().getMonth());
+  if(P.mode==='range')y=P.from.getFullYear();
   const dim=new Date(y,m+1,0).getDate();
   const today=new Date();const isCurrent=(y===today.getFullYear()&&m===today.getMonth());
   const elapsed=isCurrent?Math.max(today.getDate(),1):dim;
-  const factor=div(dim,elapsed);
-  const leadsSoFar=lp.length,bkSoFar=bookedCount(lp),spendSoFar=ap.reduce((a,b)=>a+b.spend,0);
-  const projLeads=Math.round(leadsSoFar*factor),projBk=Math.round(bkSoFar*factor),projSpend=spendSoFar*factor;
-  // historical close rate (whole dataset)
+  const leadsSoFar=lp.length,bkSoFar=bookedCount(lp),spendSoFar=ap.reduce((a,b)=>a+b.spend,0),msgSoFar=ap.reduce((a,b)=>a+b.msg,0);
+  // daily avg & weekly avg projections
+  const dailyAvg=div(leadsSoFar,elapsed), weeklyAvg=dailyAvg*7;
+  const projDaily=Math.round(dailyAvg*dim);
+  const weeksInMonth=dim/7; const projWeekly=Math.round(weeklyAvg*weeksInMonth);
+  const projLeads=Math.round((projDaily+projWeekly)/2); // blend of two methods
+  const bkDailyAvg=div(bkSoFar,elapsed),spendDailyAvg=div(spendSoFar,elapsed);
+  const projBk=Math.round(bkDailyAvg*dim),projSpend=spendDailyAvg*dim;
   const histClose=div(bookedCount(LEADS),LEADS.length);
   const pipeline=lp.filter(x=>['new','consult','sitecheck','negotiate'].includes(x.sk)).length;
   const expFromPipe=Math.round(pipeline*histClose);
-  const prev=period().leadsPrev;
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">
-    ${kpi({ic:'target',color:'bg-blue',label:'Lead dự báo cuối '+P.label,val:nf(projLeads),foot:'hiện tại '+nf(leadsSoFar)+' · còn '+(dim-elapsed)+' ngày'})}
-    ${kpi({ic:'chart',color:'bg-green',label:'Booking dự báo',val:nf(projBk),foot:'hiện tại '+nf(bkSoFar)})}
+  const prevBk=bookedCount(P.leadsPrev);
+
+  // cumulative daily series (actual to date) + projection line
+  const days=Array.from({length:dim},(_,i)=>i+1);
+  const ldMap=leadDayRows(lp);
+  let cum=0;const cumLeads=days.map(d=>{if(isCurrent&&d>elapsed)return null;cum+=(ldMap[ymd(new Date(y,m,d))]||[]).length;return cum;});
+  // projection trajectory from run-rate (straight line to projLeads)
+  const projLine=days.map(d=>Math.round(dailyAvg*d));
+
+  let html=highlight([
+    {type:projBk>=prevBk?'ok':'warn',icon:projBk>=prevBk?'trend':'info',html:`Dự báo cuối kỳ: <b>${nf(projLeads)}</b> lead · <b>${nf(projBk)}</b> booking · chi QC <b>${vndC(projSpend)}</b>. Hiện đạt ${nf(leadsSoFar)} lead sau ${elapsed}/${dim} ngày.`},
+    {type:'info',icon:'target',html:`Trung bình <b>${dailyAvg.toFixed(1)}</b> lead/ngày · <b>${weeklyAvg.toFixed(0)}</b> lead/tuần. Pipeline mở <b>${nf(pipeline)}</b> lead → kỳ vọng thêm <b>+${nf(expFromPipe)}</b> booking (tỷ lệ chốt LS ${pct(histClose*100)}).`}
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">
+    ${kpi({ic:'target',color:'bg-blue',label:'Lead dự báo cuối kỳ',val:nf(projLeads),foot:'TB ngày '+projDaily+' · TB tuần '+projWeekly})}
+    ${kpi({ic:'chart',color:'bg-green',label:'Booking dự báo',val:nf(projBk),trend:trendArrow(projBk,prevBk),foot:'hiện tại '+nf(bkSoFar)})}
     ${kpi({ic:'wallet',color:'bg-pink',label:'Chi phí QC dự báo',val:vndC(projSpend),foot:'đã chi '+vndC(spendSoFar)})}
-    ${kpi({ic:'trend',color:'bg-purple',label:'Booking kỳ vọng từ pipeline',val:'+'+nf(expFromPipe),foot:nf(pipeline)+' lead × tỷ lệ chốt '+pct(histClose*100)})}
+    ${kpi({ic:'trend',color:'bg-purple',label:'Booking kỳ vọng từ pipeline',val:'+'+nf(expFromPipe),foot:nf(pipeline)+' lead × '+pct(histClose*100)})}
   </div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
-    ${card('Tiến độ & dự phóng cuối kỳ','Thực tế (đến nay) vs Dự báo theo run-rate','<div class="chart-box h300"><canvas id="chFc"></canvas></div>')}
-    ${card('Cơ sở dự báo','Phương pháp & giả định',
-      ins('info','info',`Mô hình <b>run-rate</b>: ngoại suy theo tốc độ ${elapsed}/${dim} ngày của kỳ (hệ số ×${factor.toFixed(2)}).`)+
-      ins('info','target',`Tỷ lệ chốt lịch sử toàn dữ liệu: <b>${pct(histClose*100)}</b> dùng để ước lượng booking từ pipeline đang mở.`)+
-      ins(projBk>=bookedCount(prev)?'ok':'warn',projBk>=bookedCount(prev)?'trend':'info',`Dự báo booking <b>${nf(projBk)}</b> so với kỳ trước <b>${nf(bookedCount(prev))}</b> → ${projBk>=bookedCount(prev)?'khả quan':'cần đẩy mạnh chuyển đổi'}.`)+
-      ins('warn','info',`Dự báo mang tính tham khảo; độ chính xác tăng khi qua giữa kỳ và khi có cột giá trị/ngày tổ chức.`)
-    )}
+    ${card('Lũy kế lead theo ngày','Thực đạt (lũy kế) vs Quỹ đạo run-rate · '+lblFc(y,m),'<div class="chart-box h300"><canvas id="chCum"></canvas></div>')}
+    ${card('Thực tế vs Dự báo','Đến nay vs cuối kỳ','<div class="chart-box h300"><canvas id="chFc"></canvas></div>')}
   </div>`;
-  html+=dataNote(LEAD_MAP,LEAD_DEFS,'Lead CRM');
+  html+=card('Cơ sở & giả định dự báo','Phương pháp tính',
+      ins('info','info',`<b>Trung bình ngày:</b> ${dailyAvg.toFixed(2)} lead/ngày × ${dim} ngày = ${projDaily} lead. <b>Trung bình tuần:</b> ${weeklyAvg.toFixed(1)} lead/tuần × ${weeksInMonth.toFixed(1)} tuần = ${projWeekly} lead. Dự báo cuối kỳ lấy trung bình hai phương pháp.`)+
+      ins('info','target',`Tỷ lệ chốt lịch sử toàn dữ liệu <b>${pct(histClose*100)}</b> dùng để ước lượng booking từ pipeline đang mở.`)+
+      ins('warn','info',`Dự báo mang tính tham khảo; độ chính xác tăng khi đã qua giữa kỳ.`));
   setC(html);
+  mkChart('chCum',{type:'line',data:{labels:days,datasets:[
+    {label:'Lũy kế thực đạt',data:cumLeads,borderColor:C.accent,borderWidth:2.8,tension:.3,pointRadius:0,fill:true,backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(63,61,153,.18)',C.accentFill0)},
+    {label:'Quỹ đạo run-rate',data:projLine,borderColor:C.orange,borderWidth:2,borderDash:[5,4],tension:.1,pointRadius:0,fill:false}]},
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
   mkChart('chFc',{type:'bar',data:{labels:['Lead','Booking','Chi phí (tr₫)'],datasets:[
-    {label:'Hiện tại',data:[leadsSoFar,bkSoFar,+(spendSoFar/1e6).toFixed(1)],backgroundColor:'#bcd3ff',borderRadius:7,maxBarThickness:46},
-    {label:'Dự báo cuối kỳ',data:[projLeads,projBk,+(projSpend/1e6).toFixed(1)],backgroundColor:'#3b82f6',borderRadius:7,maxBarThickness:46}]},
-    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700',size:10},color:'#475569',formatter:v=>v||''}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
+    {label:'Hiện tại',data:[leadsSoFar,bkSoFar,+(spendSoFar/1e6).toFixed(1)],backgroundColor:C.accentLt,borderRadius:7,maxBarThickness:46},
+    {label:'Dự báo cuối kỳ',data:[projLeads,projBk,+(projSpend/1e6).toFixed(1)],backgroundColor:C.accent,borderRadius:7,maxBarThickness:46}]},
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700',size:10},color:C.ink,formatter:v=>v||''}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
 }
+function lblFc(y,m){return 'Tháng '+(m+1)+'/'+y;}
 
 /* ========== BIZ • NGUỒN LEAD & ROI ========== */
 function rBizRoi(){
   const P=period();const lp=P.leadsP,ap=P.adsP;
-  const spend=ap.reduce((a,b)=>a+b.spend,0),leads=lp.length,bk=bookedCount(lp);
+  const s=sumAds(ap),sv=sumAds(P.adsPrev);
+  const spend=s.spend,leads=lp.length,bk=bookedCount(lp);
+  const leadsPrev=P.leadsPrev.length,bkPrev=bookedCount(P.leadsPrev);
+  const msg=s.msg, msgPrev=sv.msg;
+  // ads messages vs actual leads received
+  const msgPerLead=div(msg,leads); // tin nhắn ads / lead thực nhận
+  const leadFromAdsShare=div(msg,leads)*100; // proxy share
   const src=uniq(lp.map(x=>x.source));
-  const srcRows=src.map(s=>{const a=lp.filter(x=>x.source===s);const b=bookedCount(a);return {s,leads:a.length,bk:b,rate:div(b,a.length)*100};}).sort((x,y)=>y.leads-x.leads);
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">
-    ${kpi({ic:'wallet',color:'bg-blue',label:'Tổng chi marketing',val:vndC(spend),foot:P.label})}
-    ${kpi({ic:'target',color:'bg-purple',label:'Chi phí / Lead (blended)',val:leads?vnd(spend/leads):'—',foot:nf(leads)+' lead'})}
-    ${kpi({ic:'chart',color:'bg-green',label:'Chi phí / Booking',val:bk?vndC(spend/bk):'—',foot:nf(bk)+' booking'})}
-    ${kpi({ic:'trend',color:'bg-orange',label:'Số nguồn lead',val:nf(src.length),foot:'kênh ghi nhận'})}
+  const srcRows=src.map(ss=>{const a=lp.filter(x=>x.source===ss);const b=bookedCount(a);return {s:ss,leads:a.length,bk:b,rate:div(b,a.length)*100};}).sort((x,y)=>y.leads-x.leads);
+
+  let html=highlight([
+    {type:'info',icon:'wallet',html:`Chi marketing <b>${vndC(spend)}</b> · CPL blended <b>${leads?vnd(spend/leads):'—'}</b> · chi phí/booking <b>${bk?vndC(spend/bk):'—'}</b>.`},
+    {type:msg>=leads?'ok':'warn',icon:'target',html:`Quảng cáo tạo <b>${nf(msg)}</b> tin nhắn so với <b>${nf(leads)}</b> lead thực nhận → tỷ lệ <b>${pct(leadFromAdsShare)}</b> (≈ ${msgPerLead.toFixed(2)} tin nhắn/lead). ${msg>leads?'Tin nhắn QC nhiều hơn lead ghi nhận — có thể lead chưa được cập nhật đủ hoặc đến từ nhiều kênh.':'Một phần lead đến từ kênh ngoài quảng cáo.'}`}
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">
+    ${kpi({ic:'wallet',color:'bg-blue',label:'Tổng chi marketing',val:vndC(spend),trend:trendArrow(sv.spend,spend),foot:P.label})}
+    ${kpi({ic:'target',color:'bg-purple',label:'Chi phí / Lead (blended)',val:leads?vnd(spend/leads):'—',trend:leads&&leadsPrev?trendArrow(div(sv.spend,leadsPrev),div(spend,leads)):null,foot:nf(leads)+' lead'})}
+    ${kpi({ic:'chart',color:'bg-green',label:'Chi phí / Booking',val:bk?vndC(spend/bk):'—',trend:bk&&bkPrev?trendArrow(div(sv.spend,bkPrev),div(spend,bk)):null,foot:nf(bk)+' booking'})}
+    ${kpi({ic:'list',color:'bg-pink',label:'Tin nhắn QC / Lead thực',val:pct(leadFromAdsShare),trend:trendArrow(msgPerLead,div(msgPrev,leadsPrev)),foot:nf(msg)+' tin nhắn / '+nf(leads)+' lead'})}
   </div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
     ${card('Lead theo nguồn','Số lead & booking mỗi nguồn','<div class="chart-box h300"><canvas id="chSrc"></canvas></div>')}
-    ${card('Tỷ lệ chốt theo nguồn','Nguồn nào cho chất lượng cao nhất',`<div style="margin-top:6px">${srcRows.slice(0,7).map(r=>`<div class="prow"><div class="pl"><span>${esc(r.s)}</span><span class="pv">${nf(r.bk)}/${nf(r.leads)} • ${pct(r.rate)}</span></div><div class="pbar"><i style="width:${Math.min(r.rate,100)}%;background:linear-gradient(90deg,#3b82f6,#8b5cf6)"></i></div></div>`).join('')}</div>`)}
+    ${card('Tin nhắn QC vs Lead thực nhận','Đối chiếu tổng tin nhắn từ ads với lead ghi nhận','<div class="chart-box h300"><canvas id="chMsgLead"></canvas></div>')}
   </div>`;
-  html+=card('Bảng hiệu quả nguồn lead','Chi tiết theo nguồn',buildTable(['Nguồn lead','Lead','Booking','Tỷ lệ chốt','Tỷ trọng lead'],
-    srcRows.map(r=>[esc(r.s),nf(r.leads),nf(r.bk),r.rate>=20?tag(pct(r.rate),'tag-good'):r.rate>=8?tag(pct(r.rate),'tag-warn'):tag(pct(r.rate),'tag-bad'),pct(div(r.leads,leads)*100)]),640));
-  html+=ins('info','info',`<b>Lưu ý phương pháp:</b> File quảng cáo và file lead là hai nguồn rời, chưa có khóa nối ở cấp từng lead. Các chỉ số chi phí/lead, chi phí/booking là <b>blended</b> (tổng chi QC ÷ tổng lead/booking của kỳ).`);
-  html=`<div>${html}</div>`;
-  setC(html+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
+  html+=`<div class="grid g-2" style="margin-bottom:18px">
+    ${card('Tỷ lệ chốt theo nguồn','Nguồn nào cho chất lượng cao nhất',`<div style="margin-top:6px">${srcRows.slice(0,7).map(r=>`<div class="prow"><div class="pl"><span>${esc(r.s)}</span><span class="pv">${nf(r.bk)}/${nf(r.leads)} • ${pct(r.rate)}</span></div><div class="pbar"><i style="width:${Math.min(r.rate,100)}%;background:linear-gradient(90deg,var(--accent),var(--purple))"></i></div></div>`).join('')}</div>`)}
+    ${card('Bảng hiệu quả nguồn lead','Chi tiết theo nguồn',buildTable(['Nguồn lead','Lead','Booking','Tỷ lệ chốt','Tỷ trọng lead'],
+      srcRows.map(r=>[esc(r.s),nf(r.leads),nf(r.bk),r.rate>=20?tag(pct(r.rate),'tag-good'):r.rate>=8?tag(pct(r.rate),'tag-warn'):tag(pct(r.rate),'tag-bad'),pct(div(r.leads,leads)*100)]),520))}
+  </div>`;
+  html+=ins('info','info',`<b>Lưu ý phương pháp:</b> File quảng cáo và file lead là hai nguồn rời, chỉ nối được theo <b>ngày</b>. Chi phí/lead, chi phí/booking là <b>blended</b> (tổng chi QC ÷ tổng lead/booking của kỳ). Tỷ lệ "tin nhắn QC/lead thực" giúp ước lượng mức đóng góp của quảng cáo vào lượng lead.`);
+  setC(`<div>${html}</div>`);
   mkChart('chSrc',{type:'bar',data:{labels:srcRows.slice(0,8).map(r=>r.s),datasets:[
-    {label:'Lead',data:srcRows.slice(0,8).map(r=>r.leads),backgroundColor:'#a855f7',borderRadius:7,maxBarThickness:30},
-    {label:'Booking',data:srcRows.slice(0,8).map(r=>r.bk),backgroundColor:'#22c55e',borderRadius:7,maxBarThickness:30}]},
-    options:{indexAxis:'y',plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700',size:10},color:'#475569',formatter:v=>v||''}},scales:{x:{...AXIS,beginAtZero:true},y:{...AXISX,ticks:{...AXISX.ticks,autoSkip:false}}}}});
+    {label:'Lead',data:srcRows.slice(0,8).map(r=>r.leads),backgroundColor:C.purple,borderRadius:7,maxBarThickness:30},
+    {label:'Booking',data:srcRows.slice(0,8).map(r=>r.bk),backgroundColor:C.good,borderRadius:7,maxBarThickness:30}]},
+    options:{indexAxis:'y',plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700',size:10},color:C.ink,formatter:v=>v||''}},scales:{x:{...AXIS,beginAtZero:true},y:{...AXISX,ticks:{...AXISX.ticks,autoSkip:false}}}}});
+  mkChart('chMsgLead',{type:'bar',data:{labels:['Tin nhắn QC','Lead thực nhận','Booking'],datasets:[{data:[msg,leads,bk],backgroundColor:[C.pink,C.accent,C.good],borderRadius:8,maxBarThickness:64}]},
+    options:{plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',font:{weight:'700',size:11},color:C.ink,formatter:v=>nf(v)}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
 }
 /* ===================== ADS HELPERS ===================== */
-function adsSeries(arr,P,field){
-  if(P.isMonth){const dim=new Date(P.y,P.m+1,0).getDate();const lab=Array.from({length:dim},(_,i)=>i+1);
-    const m=adsByDayMap(arr);
-    const val=lab.map(d=>{const rs=m[ymd(new Date(P.y,P.m,d))]||[];return rs.reduce((a,b)=>a+(b[field]||0),0);});
-    return {lab,val};}
-  const val=MONTHS.map((_,i)=>arr.filter(x=>x.mo===i).reduce((a,b)=>a+(b[field]||0),0));
-  return {lab:MONTHS,val};
-}
+function adsSeries(arr,P,field){const s=seriesOf(arr,P,field);return {lab:s.lab,val:s.val};}
 function adsDayRows(arr){const m=adsByDayMap(arr);return Object.keys(m).sort().map(k=>{const s=sumAds(m[k]);s.day=k;return s;});}
 function postsAgg(arr){const m={};arr.forEach(r=>{const k=r.url||'(không rõ link)';(m[k]=m[k]||[]).push(r);});
   return Object.entries(m).map(([url,rows])=>{const s=sumAds(rows);s.url=url;s.type=rows[0].type;s.goal=rows[0].goal;s.delivery=rows[0].delivery;s.n=rows.length;return s;});}
@@ -842,9 +1041,9 @@ function rAdInvest(){
   html+=note;
   setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
   mkChart('chInvSpend',{data:{labels:ser.lab,datasets:[
-    {type:'bar',label:'Chi tiêu (₫)',data:ser.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'#3b82f6','#93c5fd'),borderRadius:6,maxBarThickness:30,yAxisID:'y',
+    {type:'bar',label:'Chi tiêu (₫)',data:ser.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,C.accent,C.accentLt2),borderRadius:6,maxBarThickness:30,yAxisID:'y',
      datalabels:{display:false}},
-    {type:'line',label:'Tin nhắn',data:serM.val,borderColor:'#ec4899',backgroundColor:'#ec4899',tension:.4,borderWidth:2.5,pointRadius:0,yAxisID:'y1',datalabels:{display:false}}]},
+    {type:'line',label:'Tin nhắn',data:serM.val,borderColor:C.pink,backgroundColor:C.pink,tension:.4,borderWidth:2.5,pointRadius:0,yAxisID:'y1',datalabels:{display:false}}]},
     options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}}},
       scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},
         y1:{position:'right',beginAtZero:true,grid:{display:false},border:{display:false},ticks:{padding:6}},x:AXISX}}});
@@ -853,30 +1052,33 @@ function rAdInvest(){
 /* ========== QC TỔNG • TRANG 2: TỔNG HỢP THEO NGÀY ========== */
 function rAdSumDaily(){
   const P=period();const rows=adsDayRows(P.adsP);
-  if(!rows.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>'+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));return;}
-  const s=sumAds(P.adsP);
+  if(!rows.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>');return;}
+  const s=sumAds(P.adsP);const ldMap=leadDayRows(P.leadsP);
+  const tLeads=P.leadsP.length,tBk=bookedCount(P.leadsP);
   const best=rows.slice().sort((a,b)=>(a.msg?a.cpl:1e18)-(b.msg?b.cpl:1e18))[0];
   const worst=rows.filter(r=>r.spend>0&&r.msg===0).sort((a,b)=>b.spend-a.spend)[0];
-  let kpis=[
-    kpi({ic:'wallet',color:'bg-blue',label:'Tổng chi '+P.label,val:vndC(s.spend),foot:rows.length+' ngày có chạy'}),
-    kpi({ic:'trend',color:'bg-green',label:'Chi TB / ngày',val:vndC(div(s.spend,rows.length)),foot:'trên ngày có chạy'}),
-    kpi({ic:'target',color:'bg-purple',label:'Tin nhắn / ngày (TB)',val:(div(s.msg,rows.length)).toFixed(1),foot:nf(s.msg)+' tin nhắn'}),
-    kpi({ic:'chart',color:'bg-orange',label:'CPL trung bình',val:s.msg?vndC(s.cpl):'—',foot:'toàn kỳ'})
-  ].join('');
+  let html=highlight([
+    {type:'info',icon:'wallet',html:`Kỳ <b>${P.label}</b>: chi <b>${vndC(s.spend)}</b> qua <b>${rows.length}</b> ngày, tạo <b>${nf(s.msg)}</b> tin nhắn → <b>${nf(tLeads)}</b> lead, <b>${nf(tBk)}</b> booking (ghép theo ngày).`},
+    worst?{type:'warn',icon:'info',html:`Ngày <b>${dmy(parseDate(worst.day))}</b> chi <b>${vndC(worst.spend)}</b> mà không có tin nhắn — nên ưu tiên rà soát.`}:null
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">
+    ${kpi({ic:'wallet',color:'bg-blue',label:'Tổng chi '+P.label,val:vndC(s.spend),foot:rows.length+' ngày có chạy'})}
+    ${kpi({ic:'trend',color:'bg-green',label:'Chi TB / ngày',val:vndC(div(s.spend,rows.length)),foot:'trên ngày có chạy'})}
+    ${kpi({ic:'target',color:'bg-purple',label:'Tin nhắn / ngày (TB)',val:(div(s.msg,rows.length)).toFixed(1),foot:nf(s.msg)+' tin nhắn'})}
+    ${kpi({ic:'chart',color:'bg-orange',label:'CPL trung bình',val:s.msg?vndC(s.cpl):'—',foot:'toàn kỳ'})}
+  </div>`;
   const ser=adsSeries(P.adsP,P,'spend');
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=card('Chi tiêu theo ngày',P.label,'<div class="chart-box h300"><canvas id="chSumDay"></canvas></div>',`style="margin-bottom:18px"`);
-  const tRows=rows.map(r=>{const d=parseDate(r.day);return [
-    dmy(d),vndC(r.spend),numC(r.reach),numC(r.impr),nf(r.msg),nf(r.newmsg),
-    r.msg?vndC(r.cpl):'—',pct(r.ctr,2),numC(r.eng),
-    r.spend>0&&r.msg===0?tag('⚠ 0 tin nhắn','tag-bad'):r.msg&&r.cpl<=(s.cpl||1e18)?tag('Tốt','tag-good'):tag('—','tag-mut')
+  const tRows=rows.map(r=>{const d=parseDate(r.day);const ld=ldMap[r.day]||[];const leads=ld.length,bk=ld.filter(x=>x.sk==='booked').length;return [
+    dmy(d),vndC(r.spend),numC(r.reach),numC(r.impr),nf(r.msg),
+    nf(leads),nf(bk),leads?vndC(div(r.spend,leads)):'—',r.msg?vndC(r.cpl):'—',pct(r.ctr,2),
+    r.spend>0&&r.msg===0?tag('⚠ 0 tin nhắn','tag-bad'):bk>0?tag('★ Có booking','tag-good'):r.msg&&r.cpl<=(s.cpl||1e18)?tag('Tốt','tag-good'):tag('—','tag-mut')
   ];});
-  html+=card('Bảng tổng hợp theo ngày','Sắp xếp tăng dần theo ngày',buildTable(
-    ['Ngày','Chi tiêu','Reach','Hiển thị','Tin nhắn','LH mới','CPL','CTR','Tương tác','Đánh giá'],tRows,820));
+  html+=card('Bảng tổng hợp theo ngày','Chỉ số quảng cáo + lead & booking thực tế (ghép theo ngày)',buildTable(
+    ['Ngày','Chi tiêu','Reach','Hiển thị','Tin nhắn','Lead','Booked','Chi phí/Lead','CPL','CTR','Đánh giá'],tRows,940));
   if(best&&best.msg)html+=ins('ok','trend',`Ngày hiệu quả nhất: <b>${dmy(parseDate(best.day))}</b> với CPL <b>${vndC(best.cpl)}</b> (${nf(best.msg)} tin nhắn / ${vndC(best.spend)}).`);
-  if(worst)html+=ins('bad','info',`Cần xem lại: <b>${dmy(parseDate(worst.day))}</b> chi <b>${vndC(worst.spend)}</b> nhưng không phát sinh tin nhắn nào.`);
-  setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
-  mkChart('chSumDay',{type:'bar',data:{labels:ser.lab,datasets:[{label:'Chi tiêu (₫)',data:ser.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'#6366f1','#c7d2fe'),borderRadius:6,maxBarThickness:30}]},
+  setC(`<div>${html}</div>`);
+  mkChart('chSumDay',{type:'bar',data:{labels:ser.lab,datasets:[{label:'Chi tiêu (₫)',data:ser.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,C.accent2,C.accentLt),borderRadius:6,maxBarThickness:30}]},
     options:{plugins:{legend:{display:false},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},x:AXISX}}});
 }
 
@@ -910,10 +1112,10 @@ function rAdpOverview(){
   </div>`;
   setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
   mkChart('chApTrend1',{data:{labels:serSpend.lab,datasets:[
-    {type:'bar',label:'Chi tiêu',data:serSpend.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'#3b82f6','#bfdbfe'),borderRadius:6,maxBarThickness:28,yAxisID:'y',datalabels:{display:false}},
-    {type:'line',label:'Tin nhắn',data:serMsg.val,borderColor:'#22c55e',backgroundColor:'#22c55e',tension:.4,borderWidth:2.5,pointRadius:0,yAxisID:'y1',datalabels:{display:false}}]},
+    {type:'bar',label:'Chi tiêu',data:serSpend.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,C.accent,C.accentLt),borderRadius:6,maxBarThickness:28,yAxisID:'y',datalabels:{display:false}},
+    {type:'line',label:'Tin nhắn',data:serMsg.val,borderColor:C.good,backgroundColor:C.good,tension:.4,borderWidth:2.5,pointRadius:0,yAxisID:'y1',datalabels:{display:false}}]},
     options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},y1:{position:'right',beginAtZero:true,grid:{display:false},border:{display:false}},x:AXISX}}});
-  mkChart('chApTrend2',{type:'line',data:{labels:serSpend.lab,datasets:[{label:'CPM',data:cpmSer,borderColor:'#a855f7',backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'rgba(168,85,247,.25)','rgba(168,85,247,0)'),fill:true,tension:.4,borderWidth:2.5,pointRadius:0,datalabels:{display:false}}]},
+  mkChart('chApTrend2',{type:'line',data:{labels:serSpend.lab,datasets:[{label:'CPM',data:cpmSer,borderColor:C.purple,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'rgba(124,58,237,.25)','rgba(124,58,237,0)'),fill:true,tension:.4,borderWidth:2.5,pointRadius:0,datalabels:{display:false}}]},
     options:{plugins:{legend:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},x:AXISX}}});
   donut('chApType',tyL.map(k=>ty[k]),tyL.map((_,i)=>PAL[i%PAL.length]));
 }
