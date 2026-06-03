@@ -295,8 +295,38 @@ body.dark{background:linear-gradient(135deg,#1c1b34 0%,#16152a 100%)}
 body.dark #login{background:radial-gradient(1200px 600px at 30% 20%,#232140 0%,#1c1b34 55%,#16152a 100%)}
 body.dark .side{background:linear-gradient(180deg,#1c1b34,#16152a)}
 body.dark ::-webkit-scrollbar-thumb{background:#3a3860}
-body.dark table tbody tr:hover{background:rgba(255,255,255,.03)}
-body.dark .badge.tag-mut{background:#2c2a4d;color:#a9a7c8}
+body.dark table tbody tr:hover td{background:rgba(255,255,255,.04)}
+body.dark .badge.tag-mut{background:#34325a;color:#b9b7d6}
+/* tables in dark */
+body.dark thead th{background:#2b2950;color:var(--ink2);border-bottom:2px solid #3a3766}
+body.dark thead th:first-child{background:#2b2950}
+body.dark tbody td:first-child{background:#242242}
+body.dark tbody td{color:var(--ink2)}
+body.dark .tbl-wrap{box-shadow:inset 3px 3px 8px rgba(0,0,0,.4),inset -3px -3px 8px rgba(255,255,255,.03)}
+/* insights/alerts in dark: subtle tinted bg + readable text */
+body.dark .insight{color:var(--ink2)}
+body.dark .insight.ok{background:rgba(52,211,153,.12)}
+body.dark .insight.warn{background:rgba(251,191,36,.12)}
+body.dark .insight.bad{background:rgba(251,113,133,.12)}
+body.dark .insight.info{background:rgba(155,152,224,.12)}
+body.dark .insight.ok .di{background:rgba(52,211,153,.2)}
+body.dark .insight.warn .di{background:rgba(251,191,36,.2)}
+body.dark .insight.bad .di{background:rgba(251,113,133,.2)}
+body.dark .insight.info .di{background:rgba(155,152,224,.2)}
+/* trend pills + badges in dark */
+body.dark .trend.up,body.dark .tag-good{background:rgba(52,211,153,.16);color:#4ade80}
+body.dark .trend.down,body.dark .tag-bad{background:rgba(251,113,133,.16);color:#fb7185}
+body.dark .trend.flat{background:#34325a;color:#b9b7d6}
+body.dark .tag-warn{background:rgba(251,191,36,.16);color:#fbbf24}
+body.dark .tag-info{background:rgba(155,152,224,.18);color:#b6b3f0}
+/* pastel icon chips toned for dark */
+body.dark .bg-blue{background:rgba(155,152,224,.16)} body.dark .bg-pink{background:rgba(244,114,182,.16)}
+body.dark .bg-purple{background:rgba(167,139,250,.16)} body.dark .bg-teal{background:rgba(45,212,191,.16)}
+body.dark .bg-orange{background:rgba(251,146,60,.16)} body.dark .bg-green{background:rgba(52,211,153,.16)}
+body.dark .bg-red{background:rgba(251,113,133,.16)} body.dark .bg-info{background:rgba(34,211,238,.16)}
+body.dark .cal .cell.empty{background:transparent}
+body.dark .login-foot,body.dark .nav-group{color:#7d7ba0}
+body.dark code{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -414,14 +444,13 @@ async function doLogin(){
   const found=USERS.find(x=>x.u.toLowerCase()===u.toLowerCase() && x.h===h);
   if(!found){err.textContent='Sai tên đăng nhập hoặc mật khẩu.';return;}
   CURRENT=found; logAccess(found.u,found.role);
-  try{const sess=JSON.stringify({u:found.u});sessionStorage.setItem('gh_session',sess);localStorage.setItem('gh_session',sess);}catch(e){}
   enterApp();
 }
 document.getElementById('lgBtn').addEventListener('click',doLogin);
 document.getElementById('lgPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('lgUser').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lgPass').focus();});
-document.getElementById('btnLogout').addEventListener('click',()=>{try{sessionStorage.removeItem('gh_session');localStorage.removeItem('gh_session');}catch(e){}location.reload();});
-(function(){try{const raw=sessionStorage.getItem('gh_session')||localStorage.getItem('gh_session');const s=raw?JSON.parse(raw):null;if(s){const f=USERS.find(x=>x.u===s.u);if(f){CURRENT=f;enterApp();}}}catch(e){}})();
+document.getElementById('btnLogout').addEventListener('click',()=>{location.reload();});
+/* F5 / reload always returns to the login screen (no auto session restore) */
 
 function enterApp(){
   document.getElementById('login').style.display='none';
@@ -722,8 +751,7 @@ function render(){
 function setC(html){document.getElementById('content').innerHTML=html;}
 function dataNote(){return '';}
 /* page highlight strip (short, a few sentences) */
-function highlight(items){ // items: [{type,icon,html}]
-  return `<div style="margin-bottom:18px">`+items.filter(Boolean).map(i=>ins(i.type,i.icon,i.html)).join('')+`</div>`;}
+function highlight(items){return '';}
 function prevDescriptor(P){
   if(P.mode==='range')return {mode:'range',days:eachDay(P.pfrom,P.pto)};
   if(P.isMonth)return {mode:'month',isMonth:true,y:P.py,m:P.pm};
@@ -910,9 +938,9 @@ function rBizCalendar(){
   const allBooked=LEADS.filter(x=>x.sk==='booked');
   const lblMonth='Tháng '+(m+1)+'/'+y;
   const evLabel=e=>e.name||e.etype||'Tiệc';
-  // View 1: parties happening this month — by E_Date
+  // View 1: ALL events organized this month — by E_Date, across the entire dataset (any status with a party date)
   const partyMap={};let partyCount=0;
-  allBooked.forEach(x=>{const d=x.edate;if(d&&d.getFullYear()===y&&d.getMonth()===m){(partyMap[d.getDate()]=partyMap[d.getDate()]||[]).push(x);partyCount++;}});
+  LEADS.forEach(x=>{const d=x.edate;if(d&&d.getFullYear()===y&&d.getMonth()===m){(partyMap[d.getDate()]=partyMap[d.getDate()]||[]).push(x);partyCount++;}});
   // View 2: bookings closed this month — by L_Date
   const closeMap={};let closeCount=0;
   allBooked.forEach(x=>{const d=x.date;if(d.getFullYear()===y&&d.getMonth()===m){(closeMap[d.getDate()]=closeMap[d.getDate()]||[]).push(x);closeCount++;}});
@@ -1231,9 +1259,12 @@ function rAdpFormat(){
   // REPLIES: only posts whose goal = REPLIES & có tin nhắn; CPL thấp nhất, ưu tiên tin nhắn cao
   const repliesPosts=posts.filter(p=>gn(p.goal).includes('repl')&&p.msg>0);
   const bestReplies=repliesPosts.slice().sort((a,b)=>a.cpl-b.cpl||b.msg-a.msg)[0];
-  // THRUPLAY: only posts whose goal = THRUPLAY; tỷ lệ xem cao nhất + lượt xem cao
-  const thruPosts=posts.filter(p=>gn(p.goal).includes('thru'));
-  const bestThru=thruPosts.slice().sort((a,b)=>div(b.thruplay,b.impr)-div(a.thruplay,a.impr)||b.thruplay-a.thruplay)[0];
+  // THRUPLAY: only posts whose goal = THRUPLAY (hoặc video/views). Nếu có lượt xem → tỷ lệ xem cao nhất; nếu không có dữ liệu lượt xem → xếp theo tương tác (engagement)
+  const thruPosts=posts.filter(p=>gn(p.goal).includes('thru')||gn(p.goal).includes('play')||gn(p.goal).includes('video')||gn(p.goal).includes('view'));
+  const thruHasViews=thruPosts.some(p=>p.thruplay>0);
+  const bestThru=thruHasViews
+    ? thruPosts.slice().sort((a,b)=>div(b.thruplay,b.impr)-div(a.thruplay,a.impr)||b.thruplay-a.thruplay)[0]
+    : thruPosts.slice().sort((a,b)=>b.engrate-a.engrate||b.eng-a.eng)[0];
   // POST ENGAGEMENT: only posts whose goal = POST_ENGAGEMENT; tỷ lệ tương tác cao & chi phí/tương tác thấp
   const engPosts=posts.filter(p=>gn(p.goal).includes('engage'));
   const bestEng=engPosts.slice().sort((a,b)=>b.engrate-a.engrate||div(a.spend,a.eng)-div(b.spend,b.eng))[0];
@@ -1257,7 +1288,7 @@ function rAdpFormat(){
   ]);
   html+=`<div class="grid g-3" style="margin-bottom:18px">
     ${postCard('🥇 Bài REPLIES tốt nhất','bg-green','trend',bestReplies,'CPL thấp nhất · '+(bestReplies?nf(bestReplies.msg)+' tin nhắn':''),bestReplies?vndC(bestReplies.cpl):'—','Chỉ bài mục tiêu REPLIES')}
-    ${postCard('🎬 Bài THRUPLAY tốt nhất','bg-purple','chart',bestThru,'Tỷ lệ xem '+thruRate+(bestThru?' · '+numC(bestThru.thruplay)+' lượt xem':''),bestThru?thruRate:'—','Chỉ bài mục tiêu THRUPLAY')}
+    ${postCard('🎬 Bài THRUPLAY tốt nhất','bg-purple','chart',bestThru,thruHasViews?('Tỷ lệ xem '+thruRate+(bestThru?' · '+numC(bestThru.thruplay)+' lượt xem':'')):('Theo tương tác'+(bestThru?' · '+numC(bestThru.eng)+' tương tác':'')),bestThru?(thruHasViews?thruRate:pct(bestThru.engrate)):'—','Chỉ bài mục tiêu THRUPLAY')}
     ${postCard('💬 Bài POST ENGAGEMENT tốt nhất','bg-orange','doc',bestEng,'Tỷ lệ TT'+(bestEng?' · '+cpe+'/tương tác':''),bestEng?pct(bestEng.engrate):'—','Chỉ bài mục tiêu POST ENGAGEMENT')}
   </div>`;
   // share reports
