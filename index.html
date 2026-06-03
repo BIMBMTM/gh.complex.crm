@@ -597,7 +597,7 @@ function applyTheme(t){document.body.classList.toggle('dark',t==='dark');
   const b=document.getElementById('themeBtn');if(b)b.title=(t==='dark'?'Chuyển nền sáng':'Chuyển nền tối');
   try{localStorage.setItem('gh_theme',t);}catch(e){}
   if(DATA_READY)render();}
-(function(){let t='light';try{t=localStorage.getItem('gh_theme')||'light';}catch(e){}document.body.classList.toggle('dark',t==='dark');})();
+(function(){document.body.classList.remove('dark');})();
 document.getElementById('themeBtn').addEventListener('click',()=>applyTheme(document.body.classList.contains('dark')?'light':'dark'));
 document.getElementById('collapseBtn').addEventListener('click',()=>{
   const side=document.getElementById('side');
@@ -900,18 +900,13 @@ function rBizDaily(){
   });
   // MoM prev totals
   const sv=sumAds(P.adsPrev);const tLp=P.leadsPrev.length,tBp=bookedCount(P.leadsPrev);
-  const mc=(l,v,prev,col,fmt)=>{const f=fmt||nf;const t=trendArrow(v,prev);return `<div class="mini"><div class="ml">${l}</div><div class="mv" ${col?`style="color:${col}"`:''}>${f(v)}</div><div style="font-size:11px;font-weight:700;margin-top:2px" class="trend ${t.cls}">${t.t} <span style="color:var(--muted);font-weight:500">vs kỳ trước</span></div></div>`;};
-  let html=highlight([
-    {type:tB>=tBp?'ok':'warn',icon:tB>=tBp?'trend':'info',html:`Kỳ <b>${P.label}</b>: <b>${nf(tL)}</b> lead · <b>${nf(tB)}</b> booking · chi QC <b>${vndC(tS)}</b> · CPL blended <b>${tM?vnd(tS/tM):'—'}</b>.`},
-    {type:'info',icon:'list',html:`Cột "Cảnh báo" tự đánh dấu ngày tốn phí nhưng <b>0 tin nhắn / 0 lead</b> để xử lý nhanh.`}
-  ]);
-  html+=`<div class="mini-kpis">
-    ${mc('Tổng lead',tL,tLp)}
-    ${mc('Booking',tB,tBp,'var(--good)')}
-    ${mc('Chi phí QC',tS,sv.spend,'var(--accent)',vndC)}
-    ${mc('Tin nhắn QC',tM,sv.msg)}
-    <div class="mini"><div class="ml">CPL blended</div><div class="mv">${tM?vnd(tS/tM):'—'}</div></div>
-    <div class="mini"><div class="ml">Chi phí / booking</div><div class="mv">${tB?vndC(tS/tB):'—'}</div></div>
+  let html=`<div class="grid g-kpi" style="margin-bottom:18px">
+    ${kpi({ic:'target',color:'bg-blue',label:'Tổng lead',val:nf(tL),trend:trendArrow(tL,tLp),foot:P.prevLabel+': '+nf(tLp)})}
+    ${kpi({ic:'chart',color:'bg-green',label:'Booking',val:nf(tB),trend:trendArrow(tB,tBp),foot:P.prevLabel+': '+nf(tBp)})}
+    ${kpi({ic:'wallet',color:'bg-pink',label:'Chi phí QC',val:vndC(tS),trend:trendArrow(sv.spend,tS),foot:P.prevLabel+': '+vndC(sv.spend)})}
+    ${kpi({ic:'trend',color:'bg-purple',label:'Tin nhắn QC',val:nf(tM),trend:trendArrow(tM,sv.msg),foot:P.prevLabel+': '+nf(sv.msg)})}
+    ${kpi({ic:'list',color:'bg-orange',label:'CPL blended',val:tM?vnd(tS/tM):'—',foot:'chi QC / tin nhắn'})}
+    ${kpi({ic:'doc',color:'bg-teal',label:'Chi phí / booking',val:tB?vndC(tS/tB):'—',foot:'chi QC / booking'})}
   </div>`;
   html+=card('Bảng hiệu suất chi tiết theo ngày · '+P.label,'Kết hợp lead, booking & chỉ số quảng cáo (ghép theo ngày) · cột "Cảnh báo" nêu vấn đề của ngày',
     buildTable(['Ngày','Lead','Booked','Chi phí QC','Tin nhắn','CPL','Chi phí/Lead','Tiếp cận','Hiển thị','CTR','Cảnh báo'],rows,980));
@@ -938,9 +933,9 @@ function rBizCalendar(){
   const allBooked=LEADS.filter(x=>x.sk==='booked');
   const lblMonth='Tháng '+(m+1)+'/'+y;
   const evLabel=e=>e.name||e.etype||'Tiệc';
-  // View 1: ALL events organized this month — by E_Date, across the entire dataset (any status with a party date)
+  // View 1: chỉ tiệc đã BOOKED, theo E_Date, quét toàn bộ dữ liệu (mọi tiệc tổ chức trong tháng)
   const partyMap={};let partyCount=0;
-  LEADS.forEach(x=>{const d=x.edate;if(d&&d.getFullYear()===y&&d.getMonth()===m){(partyMap[d.getDate()]=partyMap[d.getDate()]||[]).push(x);partyCount++;}});
+  allBooked.forEach(x=>{const d=x.edate;if(d&&d.getFullYear()===y&&d.getMonth()===m){(partyMap[d.getDate()]=partyMap[d.getDate()]||[]).push(x);partyCount++;}});
   // View 2: bookings closed this month — by L_Date
   const closeMap={};let closeCount=0;
   allBooked.forEach(x=>{const d=x.date;if(d.getFullYear()===y&&d.getMonth()===m){(closeMap[d.getDate()]=closeMap[d.getDate()]||[]).push(x);closeCount++;}});
@@ -952,7 +947,7 @@ function rBizCalendar(){
   const lp=LEADS.filter(x=>x.y===y&&x.mo===m);
   let html='';
   html+=`<div class="cal-wrap" style="margin-bottom:18px">
-    ${card('① Lịch tiệc diễn ra · '+lblMonth, hasEdate?'Tất cả tiệc có ngày tổ chức (E_Date) trong tháng này — không phụ thuộc ngày nhận lead · '+partyCount+' tiệc':'Cần cột E_Date', calGrid(y,m,partyMap,evLabel))}
+    ${card('① Lịch tiệc diễn ra · '+lblMonth, hasEdate?'Chỉ các tiệc đã Booking 🥂, theo ngày tổ chức (E_Date) trong tháng này · '+partyCount+' tiệc':'Cần cột E_Date', calGrid(y,m,partyMap,evLabel))}
     ${card('② Lịch ngày chốt booking · '+lblMonth,'Theo L_Date — ngày nhận lead chốt thành công · '+closeCount+' booking', calGrid(y,m,closeMap,evLabel))}
   </div>`;
   const dRows=closedThisMonth.map(x=>{
