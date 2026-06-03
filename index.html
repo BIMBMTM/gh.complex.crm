@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GH.Complex • CRM & Ads Dashboard</title>
+<title>GH.Complex • CRM & Ads Intelligence Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1026,8 +1026,11 @@ function rAdInvest(){
     kpi({ic:'list',color:'bg-orange',label:'Chi phí / tin nhắn',val:s.msg?vndC(s.cpl):'—',trend:s.msg&&sp.msg?trendArrow(sp.cpl,s.cpl):null,foot:'CPL'}),
     kpi({ic:'doc',color:'bg-pink',label:'Tương tác bài viết',val:numC(s.eng),trend:trendArrow(s.eng,sp.eng),foot:'tỷ lệ '+pct(s.engrate)})
   ].join('');
+  const hi=highlight([
+    {type:s.msg&&s.cpl<=(sp.cpl||1e18)?'ok':'info',icon:'wallet',html:`Kỳ <b>${P.label}</b>: chi <b>${vndC(s.spend)}</b> (${trendArrow(s.spend,sp.spend).t} vs ${P.prevLabel}), <b>${nf(s.msg)}</b> tin nhắn · CPL <b>${s.msg?vndC(s.cpl):'—'}</b>${sp.msg?` (kỳ trước ${vndC(sp.cpl)})`:''}.`}
+  ]);
   const ser=adsSeries(P.adsP,P,'spend');const serM=adsSeries(P.adsP,P,'msg');
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
+  let html=hi+`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
     ${card('Diễn biến chi tiêu & tin nhắn','Chi phí (cột) và tin nhắn (đường) '+P.label,'<div class="chart-box h300"><canvas id="chInvSpend"></canvas></div>')}
     ${card('So sánh cùng kỳ','Kỳ này so với '+P.prevLabel,cmpTable(s,sp,P.label,P.prevLabel))}
@@ -1098,7 +1101,10 @@ function rAdpOverview(){
   const cpmSer=serSpend.val.map((sp2,i)=>serImpr.val[i]?sp2/serImpr.val[i]*1000:0);
   // type donut
   const ty=sumBy(P.adsP,x=>x.type,x=>x.spend);const tyL=Object.keys(ty).sort((a,b)=>ty[b]-ty[a]);
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
+  let html=highlight([
+    {type:'info',icon:'chart',html:`Kỳ <b>${P.label}</b>: CPM <b>${vndC(s.cpm)}</b>, CTR <b>${pct(s.ctr,2)}</b>, CPL <b>${s.msg?vndC(s.cpl):'—'}</b>, tần suất <b>${s.freq.toFixed(2)}</b>. ${s.cpm<=sp.cpm?'Chi phí hiển thị được tối ưu tốt hơn kỳ trước.':'Chi phí hiển thị tăng so với kỳ trước — cân nhắc làm mới nội dung/đối tượng.'}`}
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=`<div class="grid g-2" style="margin-bottom:18px">
     ${card('Xu hướng chi tiêu & tin nhắn',P.label,'<div class="chart-box h300"><canvas id="chApTrend1"></canvas></div>')}
     ${card('Xu hướng CPM','Chi phí / 1000 hiển thị','<div class="chart-box h300"><canvas id="chApTrend2"></canvas></div>')}
@@ -1110,7 +1116,15 @@ function rAdpOverview(){
       ['Link click',nf(s.linkclicks)],['Tin nhắn',nf(s.msg)],['Liên hệ mới',nf(s.newmsg)],
       ['Tương tác',numC(s.eng)],['Bình luận',nf(s.comments)],['Tỷ lệ tương tác',pct(s.engrate)]],360))}
   </div>`;
-  setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
+  // expert addition: performance by day of week
+  const dows=['CN','T2','T3','T4','T5','T6','T7'];
+  const dowSpend=[0,0,0,0,0,0,0],dowMsg=[0,0,0,0,0,0,0];
+  P.adsP.forEach(r=>{const w=r.date.getDay();dowSpend[w]+=r.spend;dowMsg[w]+=r.msg;});
+  const dowCpl=dowSpend.map((sp2,i)=>dowMsg[i]?sp2/dowMsg[i]:0);
+  const bestDow=dows[dowCpl.map((v,i)=>[v,i]).filter(x=>x[0]>0).sort((a,b)=>a[0]-b[0])[0]?.[1]??0];
+  html+=card('Hiệu suất theo thứ trong tuần','Chi tiêu & tin nhắn cộng dồn theo ngày trong tuần — gợi ý ngày nên đẩy ngân sách','<div class="chart-box h260"><canvas id="chDow"></canvas></div>',`style="margin-bottom:18px"`);
+  html+=ins('info','trend',`Theo dữ liệu kỳ này, <b>${bestDow}</b> đang cho chi phí mỗi tin nhắn thấp nhất — có thể cân nhắc tăng ngân sách vào ngày này.`);
+  setC(`<div>${html}</div>`);
   mkChart('chApTrend1',{data:{labels:serSpend.lab,datasets:[
     {type:'bar',label:'Chi tiêu',data:serSpend.val,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,C.accent,C.accentLt),borderRadius:6,maxBarThickness:28,yAxisID:'y',datalabels:{display:false}},
     {type:'line',label:'Tin nhắn',data:serMsg.val,borderColor:C.good,backgroundColor:C.good,tension:.4,borderWidth:2.5,pointRadius:0,yAxisID:'y1',datalabels:{display:false}}]},
@@ -1118,6 +1132,10 @@ function rAdpOverview(){
   mkChart('chApTrend2',{type:'line',data:{labels:serSpend.lab,datasets:[{label:'CPM',data:cpmSer,borderColor:C.purple,backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'rgba(124,58,237,.25)','rgba(124,58,237,0)'),fill:true,tension:.4,borderWidth:2.5,pointRadius:0,datalabels:{display:false}}]},
     options:{plugins:{legend:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},x:AXISX}}});
   donut('chApType',tyL.map(k=>ty[k]),tyL.map((_,i)=>PAL[i%PAL.length]));
+  mkChart('chDow',{data:{labels:dows,datasets:[
+    {type:'bar',label:'Chi tiêu',data:dowSpend,backgroundColor:C.accentLt,borderRadius:6,maxBarThickness:34,yAxisID:'y',datalabels:{display:false}},
+    {type:'line',label:'Tin nhắn',data:dowMsg,borderColor:C.pink,backgroundColor:C.pink,tension:.4,borderWidth:2.5,pointRadius:3,yAxisID:'y1',datalabels:{display:false}}]},
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>vndC(v)}},y1:{position:'right',beginAtZero:true,grid:{display:false},border:{display:false}},x:AXISX}}});
 }
 
 /* ========== QC CHI TIẾT • TRANG 2: CHI TIẾT THEO NGÀY ========== */
@@ -1142,94 +1160,145 @@ function rAdpDaily(){
     else if(r.ctr<0.5&&r.impr>500)fl=tag('CTR thấp','tag-warn');
     else fl=tag('Ổn định','tag-mut');
     return [dmy(d),vndC(r.spend),numC(r.impr),pct(r.ctr,2),r.linkclicks?vndC(r.cpc):'—',nf(r.msg),r.msg?vndC(r.cpl):'—',vndC(r.cpm),r.freq.toFixed(2),fl];});
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
+  let html=highlight([
+    {type:bestCpl?'ok':'info',icon:'list',html:`Kỳ <b>${P.label}</b>: chi <b>${vndC(s.spend)}</b> qua <b>${rows.length}</b> ngày.${bestCpl?` CPL tốt nhất <b>${vndC(bestCpl.cpl)}</b> (${dmy(parseDate(bestCpl.day))})`:''}${noMsg.length?` · <b>${noMsg.length}</b> ngày tốn phí không ra tin nhắn`:''}.`}
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=card('Báo cáo chi tiết theo ngày',P.label,buildTable(
     ['Ngày','Chi tiêu','Hiển thị','CTR','CPC','Tin nhắn','CPL','CPM','Tần suất','Lưu ý'],tRows,860),`style="margin-bottom:18px"`);
   if(bestCpl)html+=ins('ok','trend',`Điểm sáng: <b>${dmy(parseDate(bestCpl.day))}</b> đạt CPL <b>${vndC(bestCpl.cpl)}</b>, thấp hơn mức trung bình kỳ (<b>${vndC(s.cpl)}</b>).`);
   if(noMsg.length)html+=ins('bad','info',`Có <b>${noMsg.length}</b> ngày tiêu tốn ngân sách nhưng không phát sinh tin nhắn (tổng <b>${vndC(noMsg.reduce((a,b)=>a+b.spend,0))}</b>). Nên tạm dừng hoặc tối ưu nhóm quảng cáo các ngày này.`);
   if(topReach)html+=ins('info','target',`Ngày phủ sóng rộng nhất: <b>${dmy(parseDate(topReach.day))}</b> tiếp cận <b>${numC(topReach.reach)}</b> người.`);
-  setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
+  setC(`<div>${html}</div>`);
 }
 
 /* ========== QC CHI TIẾT • TRANG 3: ĐỊNH DẠNG & MỤC TIÊU ========== */
 function rAdpFormat(){
   const P=period();const arr=P.adsP;
-  if(!arr.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>'+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));return;}
-  const hasThru=!!ADS_MAP.thruplay;
-  // by type
+  if(!arr.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>');return;}
+  const hasThru=!!ADS_MAP.thruplay && arr.some(x=>x.thruplay>0);
+  const tot=sumAds(arr);
   const types=uniq(arr.map(x=>x.type));
   const typeRows=types.map(t=>{const s=sumAds(arr.filter(x=>x.type===t));s.k=t;return s;}).sort((a,b)=>b.spend-a.spend);
-  // by goal
   const goals=uniq(arr.map(x=>x.goal));
   const goalRows=goals.map(g=>{const s=sumAds(arr.filter(x=>x.goal===g));s.k=g;return s;}).sort((a,b)=>b.spend-a.spend);
-  // posts agg
   const posts=postsAgg(arr);
-  const gnorm=g=>norm(g);
-  const bestReplies=posts.filter(p=>p.msg>0&&(gnorm(p.goal).includes('repl')||gnorm(p.goal).includes('messag')||gnorm(p.goal).includes('conversation'))).sort((a,b)=>a.cpl-b.cpl)[0]
-                   || posts.filter(p=>p.msg>0).sort((a,b)=>a.cpl-b.cpl)[0];
-  const vids=posts.filter(p=>p.type==='Video'||gnorm(p.goal).includes('thru')||gnorm(p.goal).includes('play')||gnorm(p.goal).includes('video'));
-  const bestThru=hasThru?vids.slice().sort((a,b)=>b.thruplay-a.thruplay)[0]:null;
-  const bestThruRate=hasThru?vids.filter(p=>p.impr>0).slice().sort((a,b)=>div(b.thruplay,b.impr)-div(a.thruplay,a.impr))[0]:null;
-  const bestEng=posts.filter(p=>p.reach>0&&(gnorm(p.goal).includes('engage')||gnorm(p.goal).includes('post'))).sort((a,b)=>b.engrate-a.engrate)[0]
-              || posts.filter(p=>p.reach>0).slice().sort((a,b)=>b.engrate-a.engrate)[0];
+  const gn=g=>norm(g);
+  // --- best posts, with robust fallbacks so a post ALWAYS surfaces when data exists ---
+  // REPLIES: posts optimised for messaging with msg>0, lowest CPL; fallback any post with msg
+  const bestReplies=(posts.filter(p=>p.msg>0&&(gn(p.goal).includes('repl')||gn(p.goal).includes('messag')||gn(p.goal).includes('conversation')))
+                    .concat(posts.filter(p=>p.msg>0)).sort((a,b)=>a.cpl-b.cpl))[0];
+  // THRUPLAY: prefer posts with thruplay>0 ranked by views; else video-type ranked by impressions; else any post by impressions
+  let bestThru=null,thruMode='';
+  if(hasThru){const tp=posts.filter(p=>p.thruplay>0).sort((a,b)=>b.thruplay-a.thruplay);if(tp.length){bestThru=tp[0];thruMode='views';}}
+  if(!bestThru){const vids=posts.filter(p=>p.type==='Video'||gn(p.goal).includes('thru')||gn(p.goal).includes('play')||gn(p.goal).includes('video')).sort((a,b)=>b.impr-a.impr);
+    if(vids.length){bestThru=vids[0];thruMode='video';}}
+  if(!bestThru){bestThru=posts.slice().sort((a,b)=>b.impr-a.impr)[0];thruMode='impr';}
+  // POST ENGAGEMENT: posts optimised for engagement by engrate; fallback highest engrate overall; final fallback highest eng
+  let bestEng=posts.filter(p=>p.reach>0&&(gn(p.goal).includes('engage')||gn(p.goal).includes('post'))).sort((a,b)=>b.engrate-a.engrate)[0]
+            || posts.filter(p=>p.reach>0).slice().sort((a,b)=>b.engrate-a.engrate)[0]
+            || posts.slice().sort((a,b)=>b.eng-a.eng)[0];
 
-  const fmtType=(s)=>[esc(s.k),vndC(s.spend),numC(s.impr),pct(s.ctr,2),nf(s.msg),s.msg?vndC(s.cpl):'—',numC(s.eng),pct(s.engrate)];
-  let html='';
-  // best post cards
+  const thruVal=bestThru?(thruMode==='views'?numC(bestThru.thruplay)+' lượt xem':thruMode==='video'?numC(bestThru.impr)+' hiển thị':numC(bestThru.impr)+' hiển thị'):'—';
+  const thruLbl=thruMode==='views'?'Lượt xem video cao nhất':thruMode==='video'?'Video xem nhiều (theo hiển thị)':'Hiển thị cao nhất (thiếu cột lượt xem)';
+
+  const fmtType=(s,base)=>[esc(s.k),vndC(s.spend),pct(div(s.spend,base)*100),numC(s.impr),pct(s.ctr,2),nf(s.msg),s.msg?vndC(s.cpl):'—',pct(s.engrate)];
   const postCard=(title,color,ic,p,metricLabel,metricVal,sub)=>{
     if(!p)return card(title,sub||'',`<div class="empty-note" style="padding:18px">Chưa có dữ liệu phù hợp.</div>`);
-    return card(title,sub||'',`<div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;align-items:center;gap:10px"><div class="kicon ${color}" style="width:38px;height:38px">${svgIc(ic)}</div>
-        <div><div style="font-size:18px;font-weight:800;color:var(--ink)">${metricVal}</div><div style="font-size:11.5px;color:var(--muted);font-weight:600">${metricLabel}</div></div></div>
+    return card(title,sub||'',`<div class="bp">
+      <div class="top"><div class="kicon ${color}" style="width:38px;height:38px">${svgIc(ic)}</div>
+        <div><div class="big">${metricVal}</div><div class="bl">${metricLabel}</div></div></div>
       <div style="font-size:12px;color:var(--ink2);font-weight:600">${esc(p.goal)} · ${esc(p.type)}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11px">
-        ${tag('Chi '+vndC(p.spend),'tag-info')} ${tag(nf(p.msg)+' tin nhắn','tag-mut')} ${tag('CTR '+pct(p.ctr,2),'tag-mut')} ${tag(numC(p.impr)+' hiển thị','tag-mut')}
-      </div>
-      <a href="${esc(p.url)}" target="_blank" rel="noopener" style="font-size:11.5px;color:var(--accent);font-weight:700;text-decoration:none;word-break:break-all">${shortUrl(p.url)} ↗</a>
+      <div class="meta">${tag('Chi '+vndC(p.spend),'tag-info')} ${tag(nf(p.msg)+' tin nhắn','tag-mut')} ${tag('CTR '+pct(p.ctr,2),'tag-mut')} ${tag('TT '+pct(p.engrate),'tag-mut')}</div>
+      <a href="${esc(p.url)}" target="_blank" rel="noopener">${shortUrl(p.url)} ↗</a>
     </div>`);
   };
+  let html=highlight([
+    {type:'info',icon:'grid',html:`Kỳ <b>${P.label}</b>: <b>${types.length}</b> định dạng · <b>${goals.length}</b> mục tiêu · <b>${posts.length}</b> bài viết. Định dạng chi nhiều nhất: <b>${esc(typeRows[0]?.k||'—')}</b> (${pct(div(typeRows[0]?.spend||0,tot.spend)*100)} ngân sách).`}
+  ]);
   html+=`<div class="grid g-3" style="margin-bottom:18px">
     ${postCard('🥇 Bài REPLIES tốt nhất','bg-green','trend',bestReplies,'CPL thấp nhất',bestReplies?vndC(bestReplies.cpl):'—','Mục tiêu tin nhắn · CPL thấp nhất')}
-    ${postCard('🎬 Bài THRUPLAY tốt nhất','bg-purple','chart',bestThruRate||bestThru,hasThru?'Lượt xem / tỷ lệ xem':'Cột lượt xem chưa có',hasThru?(bestThruRate?pct(div(bestThruRate.thruplay,bestThruRate.impr)*100,1)+' • '+numC(bestThruRate.thruplay):'—'):'—','Video · tỷ lệ/ lượt xem')}
+    ${postCard('🎬 Bài THRUPLAY tốt nhất','bg-purple','chart',bestThru,thruLbl,thruVal,'Video · '+(thruMode==='views'?'theo lượt xem':'ước lượng'))}
     ${postCard('💬 Bài POST ENGAGEMENT tốt nhất','bg-orange','doc',bestEng,'Tỷ lệ tương tác',bestEng?pct(bestEng.engrate):'—','Tương tác / tiếp cận')}
   </div>`;
+  // share reports
   html+=`<div class="grid g-2" style="margin-bottom:18px">
-    ${card('Hiệu suất theo định dạng (Creative object type)','VIDEO / SHARE→Canvas / STATUS→Post ảnh',buildTable(
-      ['Định dạng','Chi tiêu','Hiển thị','CTR','Tin nhắn','CPL','Tương tác','Tỷ lệ TT'],typeRows.map(fmtType),640))}
-    ${card('Hiệu suất theo mục tiêu (Optimization goal)','Nhóm theo mục tiêu tối ưu',buildTable(
-      ['Mục tiêu','Chi tiêu','Hiển thị','CTR','Tin nhắn','CPL','Tương tác','Tỷ lệ TT'],goalRows.map(fmtType),640))}
+    ${card('Tỷ trọng & hiệu suất theo định dạng','Cột "Tỷ trọng" = % ngân sách',buildTable(
+      ['Định dạng','Chi tiêu','Tỷ trọng','Hiển thị','CTR','Tin nhắn','CPL','Tỷ lệ TT'],typeRows.map(s=>fmtType(s,tot.spend)),680))}
+    ${card('Tỷ trọng & hiệu suất theo mục tiêu','Cột "Tỷ trọng" = % ngân sách',buildTable(
+      ['Mục tiêu','Chi tiêu','Tỷ trọng','Hiển thị','CTR','Tin nhắn','CPL','Tỷ lệ TT'],goalRows.map(s=>fmtType(s,tot.spend)),680))}
   </div>`;
-  if(!hasThru)html+=ins('warn','info','Không tìm thấy cột <b>lượt xem video / ThruPlay</b> trong file Ads. Phần "bài THRUPLAY tốt nhất" cần cột này để xếp hạng chính xác — nếu sheet có cột tương ứng, báo lại tên cột để bổ sung.');
-  html+=ins('info','grid',`Trong kỳ <b>${P.label}</b> có <b>${types.length}</b> định dạng và <b>${goals.length}</b> mục tiêu tối ưu đang chạy, trên tổng <b>${posts.length}</b> bài viết.`);
-  setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
+  // share donuts: spend by type & messages by type
+  const msgByType=types.map(t=>sumAds(arr.filter(x=>x.type===t)).msg);
+  html+=`<div class="grid g-2" style="margin-bottom:18px">
+    ${card('Cơ cấu chi tiêu theo định dạng','% ngân sách',`<div class="split"><div class="chart-box h260"><canvas id="chFmtSpend"></canvas></div><div class="donut-legend">${donutLegend(types,typeRows.map(s=>s.spend),types.map((_,i)=>PAL[i%PAL.length]))}</div></div>`)}
+    ${card('Cơ cấu tin nhắn theo định dạng','Định dạng nào tạo nhiều tin nhắn nhất',`<div class="split"><div class="chart-box h260"><canvas id="chFmtMsg"></canvas></div><div class="donut-legend">${donutLegend(types,msgByType,types.map((_,i)=>PAL[(i+2)%PAL.length]))}</div></div>`)}
+  </div>`;
+  // CPL by type/goal ranking
+  const cplType=typeRows.filter(s=>s.msg>0).sort((a,b)=>a.cpl-b.cpl);
+  html+=card('Xếp hạng CPL theo định dạng','Định dạng tối ưu chi phí tin nhắn nhất',
+    cplType.length?`<div style="margin-top:6px">${cplType.map(s=>{const max=Math.max(...cplType.map(x=>x.cpl));return `<div class="prow"><div class="pl"><span>${esc(s.k)}</span><span class="pv">${vndC(s.cpl)} · ${nf(s.msg)} tin nhắn</span></div><div class="pbar"><i style="width:${Math.max(div(s.cpl,max)*100,6)}%;background:linear-gradient(90deg,var(--good),var(--accent))"></i></div></div>`;}).join('')}</div>`:'<div class="empty-note">Chưa có tin nhắn để tính CPL theo định dạng.</div>');
+  if(!hasThru)html+=ins('warn','info','Không tìm thấy cột <b>lượt xem video / ThruPlay</b> (hoặc toàn bộ = 0) trong file Ads, nên "bài THRUPLAY tốt nhất" đang xếp theo lượt hiển thị của video. Nếu sheet có cột lượt xem, báo lại tên cột để xếp hạng chính xác.');
+  setC(`<div>${html}</div>`);
+  donut('chFmtSpend',typeRows.map(s=>s.spend),types.map((_,i)=>PAL[i%PAL.length]));
+  donut('chFmtMsg',msgByType,types.map((_,i)=>PAL[(i+2)%PAL.length]));
 }
 
 /* ========== QC CHI TIẾT • TRANG 4: CHI TIẾT TỪNG BÀI VIẾT ========== */
+function togglePost(id){
+  const det=document.getElementById('det-'+id),row=document.getElementById('row-'+id);
+  if(!det)return;const open=det.classList.toggle('show');if(row)row.classList.toggle('open',open);
+}
 function rAdpPosts(){
   const P=period();const posts=postsAgg(P.adsP).sort((a,b)=>b.spend-a.spend);
-  if(!posts.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>'+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));return;}
+  if(!posts.length){setC('<div class="card"><div class="empty-note">Không có dữ liệu quảng cáo trong '+P.label+'.</div></div>');return;}
   const s=sumAds(P.adsP);
+  const prevPosts={};postsAgg(P.adsPrev).forEach(p=>prevPosts[p.url]=p);
   const noMsg=posts.filter(p=>p.spend>0&&p.msg===0);
-  let kpis=[
-    kpi({ic:'doc',color:'bg-blue',label:'Số bài viết chạy QC',val:nf(posts.length),foot:P.label}),
-    kpi({ic:'wallet',color:'bg-purple',label:'Chi TB / bài',val:vndC(div(s.spend,posts.length)),foot:'tổng '+vndC(s.spend)}),
-    kpi({ic:'target',color:'bg-green',label:'CPL toàn kỳ',val:s.msg?vndC(s.cpl):'—',foot:nf(s.msg)+' tin nhắn'}),
-    kpi({ic:'list',color:'bg-red',label:'Bài tốn phí · 0 tin nhắn',val:nf(noMsg.length),foot:'cần xử lý'})
-  ].join('');
-  const tRows=posts.map(p=>{let fl;
+  // per-post daily rows (within current period)
+  const dayByUrl={};P.adsP.forEach(r=>{const u=r.url||'(không rõ link)';(dayByUrl[u]=dayByUrl[u]||{});const k=ymd(r.date);(dayByUrl[u][k]=dayByUrl[u][k]||[]).push(r);});
+
+  let html=highlight([
+    {type:'info',icon:'doc',html:`Kỳ <b>${P.label}</b>: <b>${nf(posts.length)}</b> bài chạy QC · chi TB <b>${vndC(div(s.spend,posts.length))}</b>/bài · CPL toàn kỳ <b>${s.msg?vndC(s.cpl):'—'}</b>.${noMsg.length?` <b>${noMsg.length}</b> bài tốn phí chưa ra tin nhắn.`:''} Nhấn vào dòng để xem chi tiết theo ngày.`}
+  ]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">
+    ${kpi({ic:'doc',color:'bg-blue',label:'Số bài viết chạy QC',val:nf(posts.length),foot:P.label})}
+    ${kpi({ic:'wallet',color:'bg-purple',label:'Chi TB / bài',val:vndC(div(s.spend,posts.length)),foot:'tổng '+vndC(s.spend)})}
+    ${kpi({ic:'target',color:'bg-green',label:'CPL toàn kỳ',val:s.msg?vndC(s.cpl):'—',foot:nf(s.msg)+' tin nhắn'})}
+    ${kpi({ic:'list',color:'bg-red',label:'Bài tốn phí · 0 tin nhắn',val:nf(noMsg.length),foot:'cần xử lý'})}
+  </div>`;
+  // custom expandable table
+  const head=['','Bài viết','Định dạng','Chi tiêu','Tin nhắn','CPL','CPL vs kỳ trước','CTR','Tỷ lệ TT','Lưu ý'];
+  let rowsHtml='';
+  posts.forEach((p,idx)=>{
+    const pv=prevPosts[p.url];
+    let momCell='—';
+    if(pv&&pv.msg>0&&p.msg>0){const t=trendArrow(pv.cpl,p.cpl);momCell=tag((p.cpl<=pv.cpl?'▼ ':'▲ ')+vndC(Math.abs(p.cpl-pv.cpl)),p.cpl<=pv.cpl?'tag-good':'tag-bad');}
+    else if(!pv)momCell=tag('Mới','tag-info');
+    let fl;
     if(p.spend>0&&p.msg===0)fl=tag('⚠ 0 tin nhắn','tag-bad');
     else if(p.msg&&p.cpl<=(s.cpl||1e18)*0.8)fl=tag('★ CPL tốt','tag-good');
     else if(p.ctr<0.5&&p.impr>1000)fl=tag('CTR thấp','tag-warn');
     else fl=tag('Ổn định','tag-mut');
-    return [`<a href="${esc(p.url)}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;text-decoration:none">${shortUrl(p.url)} ↗</a>`,
-      esc(p.type),esc(p.goal),vndC(p.spend),numC(p.impr),pct(p.ctr,2),nf(p.msg),p.msg?vndC(p.cpl):'—',numC(p.eng),pct(p.engrate),fl];});
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
-  html+=card('Bóc tách hiệu suất từng bài viết','Gộp theo link bài viết (Creative Facebook URL), sắp xếp theo chi tiêu',buildTable(
-    ['Bài viết','Định dạng','Mục tiêu','Chi tiêu','Hiển thị','CTR','Tin nhắn','CPL','Tương tác','Tỷ lệ TT','Lưu ý'],tRows,1000),`style="margin-bottom:18px"`);
-  if(noMsg.length)html+=ins('bad','info',`Có <b>${noMsg.length}</b> bài tiêu tốn ngân sách (tổng <b>${vndC(noMsg.reduce((a,b)=>a+b.spend,0))}</b>) nhưng chưa ra tin nhắn. Cân nhắc tắt hoặc làm mới nội dung/đối tượng.`);
+    rowsHtml+=`<tr class="exp-row" id="row-${idx}" onclick="togglePost(${idx})">
+      <td><span class="exp-caret">▸</span></td>
+      <td><a href="${esc(p.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--accent);font-weight:700;text-decoration:none">${shortUrl(p.url)} ↗</a></td>
+      <td>${esc(p.type)}</td><td>${vndC(p.spend)}</td><td>${nf(p.msg)}</td><td>${p.msg?vndC(p.cpl):'—'}</td>
+      <td>${momCell}</td><td>${pct(p.ctr,2)}</td><td>${pct(p.engrate)}</td><td>${fl}</td></tr>`;
+    // daily detail
+    const dmap=dayByUrl[p.url]||{};const dks=Object.keys(dmap).sort();
+    let dRows=dks.map(k=>{const ds=sumAds(dmap[k]);return `<tr><td>${dmy(parseDate(k))}</td><td>${vndC(ds.spend)}</td><td>${numC(ds.impr)}</td><td>${pct(ds.ctr,2)}</td><td>${nf(ds.msg)}</td><td>${ds.msg?vndC(ds.cpl):'—'}</td><td>${numC(ds.eng)}</td></tr>`;}).join('');
+    rowsHtml+=`<tr class="exp-detail" id="det-${idx}"><td colspan="${head.length}"><div class="exp-inner">
+      <div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:6px">Chi tiết theo ngày · ${esc(p.goal)}${pv?` · Kỳ trước: chi ${vndC(pv.spend)}, ${nf(pv.msg)} tin nhắn, CPL ${pv.msg?vndC(pv.cpl):'—'}`:' · Không có dữ liệu kỳ trước'}</div>
+      <table><thead><tr><th>Ngày</th><th>Chi tiêu</th><th>Hiển thị</th><th>CTR</th><th>Tin nhắn</th><th>CPL</th><th>Tương tác</th></tr></thead><tbody>${dRows||'<tr><td colspan="7" style="text-align:center;color:var(--muted)">—</td></tr>'}</tbody></table>
+    </div></td></tr>`;
+  });
+  html+=card('Bóc tách hiệu suất từng bài viết','Gộp theo link bài (Creative Facebook URL) · so sánh CPL với '+P.prevLabel+' · nhấn dòng để mở/thu gọn chi tiết theo ngày',
+    `<div class="tbl-wrap"><table style="min-width:1000px"><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`);
   const top=posts.filter(p=>p.msg>0).sort((a,b)=>a.cpl-b.cpl)[0];
   if(top)html+=ins('ok','trend',`Bài hiệu quả nhất: <b>${shortUrl(top.url)}</b> — CPL <b>${vndC(top.cpl)}</b>, ${nf(top.msg)} tin nhắn từ ${vndC(top.spend)}.`);
-  setC(`<div>${html}</div>`+dataNote(ADS_MAP,ADS_DEFS,'Ads Data'));
+  if(noMsg.length)html+=ins('bad','info',`Có <b>${noMsg.length}</b> bài tiêu tốn ngân sách (tổng <b>${vndC(noMsg.reduce((a,b)=>a+b.spend,0))}</b>) nhưng chưa ra tin nhắn.`);
+  setC(`<div>${html}</div>`);
 }
 
 /* ========== ADMIN • LỊCH SỬ TRUY CẬP ========== */
@@ -1245,7 +1314,8 @@ function rAdminLog(){
   const tRows=log.slice().reverse().slice(0,400).map(e=>{const d=new Date(e.t);
     return [d.toLocaleString('vi-VN'),esc(e.user),e.role==='Admin'?tag('Admin','tag-info'):tag(esc(e.role),'tag-mut'),
       `<span style="font-size:11px;color:var(--muted)">${esc((e.ua||'').slice(0,60))}</span>`];});
-  let html=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
+  let html=highlight([{type:'info',icon:'shield',html:`Đã ghi nhận <b>${nf(log.length)}</b> lượt đăng nhập từ <b>${nf(uniq(log.map(x=>x.user)).length)}</b> tài khoản trên trình duyệt này.`}]);
+  html+=`<div class="grid g-kpi" style="margin-bottom:18px">${kpis}</div>`;
   html+=card('Lịch sử đăng nhập','Bản ghi gần nhất hiển thị trước (tối đa 400 dòng)',buildTable(
     ['Thời gian','Tài khoản','Vai trò','Thiết bị / trình duyệt'],tRows.length?tRows:[['—','—','—','—']],560),`style="margin-bottom:18px"`);
   html+=ins('warn','shield','<b>Lưu ý kỹ thuật:</b> Nhật ký truy cập được lưu cục bộ trên <b>trình duyệt/thiết bị này</b> (localStorage) vì dashboard chạy hoàn toàn phía client, không có máy chủ. Do đó Admin chỉ thấy các lượt đăng nhập thực hiện trên cùng trình duyệt. Cơ chế mật khẩu (băm SHA-256) & mã hoá link là <b>che giấu phía client</b>, phù hợp hạn chế truy cập nội bộ chứ không thay thế bảo mật máy chủ.');
