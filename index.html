@@ -6,7 +6,7 @@
 <title>GH.Complex • CRM & Ads Intelligence Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
@@ -23,16 +23,16 @@
   --pink:#db2777; --purple:#7c3aed; --teal:#0d9488; --orange:#ea580c;
   --side-bg:#0e1020; --side-ink:#9ba0bf; --side-act:#ffffff;
   --sh:0 1px 2px rgba(16,18,42,.05),0 4px 14px rgba(16,18,42,.05);
-  --radius:16px; --font:'Be Vietnam Pro',system-ui,sans-serif;
+  --radius:16px; --font:'Inter','Be Vietnam Pro',system-ui,sans-serif;
 }
 body.dark{
-  --bg:#0b0d1a; --card:#141829; --card2:#181d33; --line:#232a45; --line2:#1d2338;
+  --bg:#0b0d13; --card:#12151d; --card2:#171b25; --line:#222735; --line2:#1c212d;
   --ink:#eceef8; --ink2:#c6cade; --muted:#878ca9;
   --accent:#7b7ff5; --accent2:#9d92fa; --accent-soft:#232249;
   --good:#3ddc84; --good-bg:rgba(61,220,132,.12); --bad:#ff6369; --bad-bg:rgba(255,99,105,.12);
   --warn:#fbbf24; --warn-bg:rgba(251,191,36,.12); --info:#38bdf8; --info-bg:rgba(56,189,248,.12);
   --pink:#f472b6; --purple:#a78bfa; --teal:#2dd4bf; --orange:#fb923c;
-  --side-bg:#090b16; --side-ink:#8d92b3;
+  --side-bg:#0b0d13; --side-ink:#8d92b3;
   --sh:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.28);
 }
 html,body{height:100%}
@@ -159,7 +159,7 @@ body.dark .date-inp{color-scheme:dark}
 
 /* ============ GRID & CARDS ============ */
 .grid{display:grid;gap:16px}
-.g-kpi{grid-template-columns:repeat(auto-fit,minmax(196px,1fr))}
+.g-kpi{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
 .g-2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
 .g-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .card{padding:20px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh)}
@@ -169,18 +169,34 @@ body.dark .date-inp{color-scheme:dark}
 .card-head h3{margin:0}
 
 /* KPI */
-.kpi{padding:18px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);transition:.18s}
-.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,18,42,.1)}
-.kpi .kicon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;margin-bottom:12px}
-.kpi .kicon svg{width:20px;height:20px;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.kpi .klabel{font-size:11.5px;color:var(--muted);font-weight:600}
-.kpi .kval{font-size:23px;font-weight:800;letter-spacing:-.6px;margin-top:2px;color:var(--ink)}
-.kpi .kfoot{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:11px;font-weight:600;color:var(--muted);flex-wrap:wrap}
-.trend{display:inline-flex;align-items:center;gap:3px;padding:2.5px 8px;border-radius:999px;font-size:10.5px;font-weight:800}
-.trend.up{background:var(--good-bg);color:var(--good)}
-.trend.down{background:var(--bad-bg);color:var(--bad)}
-.trend.flat{background:var(--line2);color:var(--muted)}
-body.dark .kpi{background:linear-gradient(150deg,#171c31,#12162a)}
+.kpi{padding:18px 20px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);transition:.18s;
+  display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-content:start}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(16,18,42,.09)}
+.kpi .kicon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;grid-row:1/3;align-self:start}
+.kpi .kicon svg{width:21px;height:21px;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.kpi .klabel{grid-column:2;font-size:12.5px;color:var(--muted);font-weight:600}
+.kpi .kval{grid-column:2;font-size:24px;font-weight:800;letter-spacing:-.7px;margin-top:1px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .kfoot{grid-column:1/3;display:flex;align-items:center;gap:6px;margin-top:11px;font-size:11.5px;font-weight:600;color:var(--muted);flex-wrap:wrap}
+.trend{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:800}
+.trend.up{color:var(--good)}
+.trend.down{color:var(--bad)}
+.trend.flat{color:var(--muted)}
+/* ===== BẢN TỐI: thẻ KPI gradient màu như ảnh Auto Ads Facebook ===== */
+body.dark .kpi{border-color:rgba(255,255,255,.07)}
+body.dark .kpi .kicon{background:rgba(255,255,255,.14) !important;color:#fff !important}
+body.dark .kpi .kval{color:#fff}
+body.dark .kpi .klabel{color:rgba(255,255,255,.72)}
+body.dark .kpi .kfoot{color:rgba(255,255,255,.55)}
+body.dark .kpi .trend.up{color:#4ade80}
+body.dark .kpi .trend.down{color:#fb7185}
+body.dark .kpi:has(.bg-blue){background:linear-gradient(160deg,#123163 0%,#0b1a36 70%)}
+body.dark .kpi:has(.bg-green){background:linear-gradient(160deg,#0d4030 0%,#08201a 70%)}
+body.dark .kpi:has(.bg-purple){background:linear-gradient(160deg,#33206b 0%,#181038 70%)}
+body.dark .kpi:has(.bg-orange){background:linear-gradient(160deg,#553112 0%,#241505 70%)}
+body.dark .kpi:has(.bg-pink){background:linear-gradient(160deg,#521a3a 0%,#260b1a 70%)}
+body.dark .kpi:has(.bg-teal){background:linear-gradient(160deg,#0e4444 0%,#082222 70%)}
+body.dark .kpi:has(.bg-red){background:linear-gradient(160deg,#54191d 0%,#260b0d 70%)}
+body.dark .kpi:has(.bg-info){background:linear-gradient(160deg,#0e3d55 0%,#081e2b 70%)}
 /* icon tints */
 .bg-blue{background:var(--accent-soft);color:var(--accent)} .bg-pink{background:rgba(219,39,119,.1);color:var(--pink)}
 .bg-purple{background:rgba(124,58,237,.1);color:var(--purple)} .bg-teal{background:rgba(13,148,136,.1);color:var(--teal)}
@@ -360,8 +376,10 @@ async function sha256(s){const b=new TextEncoder().encode(s);const h=await crypt
 const VNF=new Intl.NumberFormat('vi-VN');
 function nf(n){n=+n||0;return VNF.format(Math.round(n));}
 function vnd(n){return nf(n)+' ₫';}
-function vndC(n){n=+n||0;if(Math.abs(n)>=1e9)return (n/1e9).toFixed(2).replace(/\.?0+$/,'')+' tỷ';if(Math.abs(n)>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,'')+' tr';if(Math.abs(n)>=1e3)return (n/1e3).toFixed(0)+'k';return nf(n)+' ₫';}
-function numC(n){n=+n||0;if(Math.abs(n)>=1e6)return (n/1e6).toFixed(2).replace(/\.?0+$/,'')+'M';if(Math.abs(n)>=1e3)return (n/1e3).toFixed(1).replace(/\.0$/,'')+'k';return nf(n);}
+function vndC(n){return vnd(n);} /* hiển thị đầy đủ theo yêu cầu */
+function numC(n){return nf(n);}
+function vndK(n){n=+n||0;if(Math.abs(n)>=1e9)return (n/1e9).toFixed(2).replace(/\.?0+$/,'')+' tỷ';if(Math.abs(n)>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,'')+' tr';if(Math.abs(n)>=1e3)return (n/1e3).toFixed(0)+'k';return nf(n);}
+function numK(n){n=+n||0;if(Math.abs(n)>=1e6)return (n/1e6).toFixed(2).replace(/\.?0+$/,'')+'M';if(Math.abs(n)>=1e3)return (n/1e3).toFixed(1).replace(/\.0$/,'')+'k';return nf(n);}
 function pct(n,d=1){return (isFinite(n)?(+n).toFixed(d):'0')+'%';}
 function div(a,b){return b?a/b:0;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -514,6 +532,7 @@ const CH={};
 function mkChart(id,cfg){Chart.defaults.color=cv('--muted')||'#64748b';if(CH[id]){CH[id].destroy();delete CH[id];}const c=document.getElementById(id);if(!c)return;CH[id]=new Chart(c,cfg);}
 function grad(ctx,area,c1,c2){if(!area)return c1;const g=ctx.createLinearGradient(0,area.top,0,area.bottom);g.addColorStop(0,c1);g.addColorStop(1,c2);return g;}
 const AXIS={grid:{color:'rgba(140,140,170,.18)',drawTicks:false},border:{display:false},ticks:{padding:8}};
+const DLA={display:(c)=>{const d=c.dataset.data;const n=d.length;const step=Math.max(1,Math.ceil(n/12));const v=d[c.dataIndex];return v!=null&&v!==0&&(c.dataIndex%step===0||c.dataIndex===n-1);},anchor:'end',align:'end',offset:1,clamp:true,font:{size:9.5,weight:'700'},formatter:v=>Math.abs(v)>=1000?vndK(v):(Number.isInteger(+v)?nf(v):(+v).toFixed(1))};
 const AXISX={grid:{display:false},border:{display:false},ticks:{padding:6,maxRotation:0,autoSkip:true,maxTicksLimit:12}};
 
 /* ===================== NAVIGATION ===================== */
@@ -814,13 +833,13 @@ function rBizOverview(){
   else{const map={close:['close',C.purple],spend:['spend',C.brand],msg:['msg',C.pink],cpl:['cpl',C.orange]};const[f,col]=map[cmpMetric];
     mds=[{label:CMP[cmpMetric],data:byMo.map(x=>x[f]),backgroundColor:col,borderRadius:7,maxBarThickness:34}];}
   mkChart('chMonthly',{type:'bar',data:{labels:MONTHS,datasets:mds},
-    options:{plugins:{legend:{display:cmpMetric==='leadbook',position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>cmpMetric==='spend'||cmpMetric==='cpl'?vndC(v):cmpMetric==='close'?v+'%':nf(v)}},x:AXISX}}});
+    options:{plugins:{legend:{display:cmpMetric==='leadbook',position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:DLA},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>cmpMetric==='spend'||cmpMetric==='cpl'?vndC(v):cmpMetric==='close'?v+'%':nf(v)}},x:AXISX}}});
   // daily trend with prev dashed
   mkChart('chDaily',{type:'line',data:{labels:sCur.lab,datasets:[
     {label:M.label+' · '+P.label,data:sCur.val,borderColor:M.color,borderWidth:2.6,tension:.4,pointRadius:0,fill:true,
       backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(63,61,153,.16)',C.accentFill0)},
     {label:M.label+' · '+P.prevLabel,data:prevAligned,borderColor:'#9494ab',borderWidth:2,borderDash:[5,4],tension:.4,pointRadius:0,fill:false}]},
-    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>M.fmt(v)}},x:AXISX}}});
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:DLA},scales:{y:{...AXIS,beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>M.fmt(v)}},x:AXISX}}});
   donut('chQuality',qVals,qCol);
   donut('chEtype',etL.map(k=>et[k]),etL.map((_,i)=>PAL[i%PAL.length]));
   donut('chEsize',esL.map(k=>es[k]),esL.map((_,i)=>PAL[(i+3)%PAL.length]));
@@ -967,7 +986,7 @@ function rBizForecast(){
   mkChart('chCum',{type:'line',data:{labels:days,datasets:[
     {label:'Lũy kế thực đạt',data:cumLeads,borderColor:C.accent,borderWidth:2.8,tension:.3,pointRadius:0,fill:true,backgroundColor:c=>grad(c.chart.ctx,c.chart.chartArea,'rgba(63,61,153,.18)',C.accentFill0)},
     {label:'Quỹ đạo run-rate',data:projLine,borderColor:C.orange,borderWidth:2,borderDash:[5,4],tension:.1,pointRadius:0,fill:false}]},
-    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:{display:false}},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
+    options:{plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:14}},datalabels:DLA},scales:{y:{...AXIS,beginAtZero:true},x:AXISX}}});
   mkChart('chFc',{type:'bar',data:{labels:['Lead','Booking','Chi phí (tr₫)'],datasets:[
     {label:'Hiện tại',data:[leadsSoFar,bkSoFar,+(spendSoFar/1e6).toFixed(1)],backgroundColor:C.accentLt,borderRadius:7,maxBarThickness:46},
     {label:'Dự báo cuối kỳ',data:[projLeads,projBk,+(projSpend/1e6).toFixed(1)],backgroundColor:C.accent,borderRadius:7,maxBarThickness:46}]},
@@ -1045,13 +1064,13 @@ function ymAgo(y,m,n){let mm=m-n,yy=y;while(mm<0){mm+=12;yy--;}return {y:yy,m:mm
 function adsMultiChart(id,labels,rowsPerLabel){
   const sel=STATE.ovSel;
   const ds=sel.map(k=>{const M=ADS_M[k];return {label:M.l,data:rowsPerLabel.map(rs=>+(M.f(sumAds(rs))||0)),
-    borderColor:M.c,backgroundColor:M.c,tension:.38,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,yAxisID:M.ax,datalabels:{display:false}};});
+    borderColor:M.c,backgroundColor:M.c,tension:.38,borderWidth:2.4,pointRadius:0,pointHoverRadius:4,yAxisID:M.ax,datalabels:DLA};});
   mkChart(id,{type:'line',data:{labels,datasets:ds},options:{
     plugins:{legend:{display:true,position:'top',labels:{usePointStyle:true,boxWidth:8,padding:12}}},
     scales:{
-      yC:{...AXIS,position:'left',display:'auto',beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>numC(v)}},
+      yC:{...AXIS,position:'left',display:'auto',beginAtZero:true,ticks:{...AXIS.ticks,callback:v=>numK(v)}},
       yC2:{position:'left',display:'auto',beginAtZero:true,grid:{display:false},border:{display:false},ticks:{padding:6}},
-      yM:{position:'right',display:'auto',beginAtZero:true,grid:{display:false},border:{display:false},ticks:{padding:6,callback:v=>vndC(v)}},
+      yM:{position:'right',display:'auto',beginAtZero:true,grid:{display:false},border:{display:false},ticks:{padding:6,callback:v=>vndK(v)}},
       yP:{position:'right',display:'auto',beginAtZero:true,grid:{display:false},border:{display:false},ticks:{padding:6,callback:v=>v+'%'}},
       x:AXISX}}});
 }
